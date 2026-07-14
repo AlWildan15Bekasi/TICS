@@ -121,6 +121,22 @@
         </div>
     </div>
 
+    <!-- Generic Modal for Detail View (Event / Commission) -->
+    <div id="detail-modal" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] shadow-2xl transform scale-90 transition-transform duration-300 flex flex-col relative overflow-hidden">
+            <div class="flex items-center justify-between p-5 sm:p-6 border-b border-slate-100 bg-slate-50">
+                <h3 id="detail-modal-title" class="text-lg sm:text-xl font-extrabold text-slate-800">Detail</h3>
+                <button onclick="closeDetailModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-600 hover:bg-slate-300 transition-colors"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div id="detail-modal-content" class="p-5 sm:p-6 overflow-y-auto flex-1 bg-white">
+                 <!-- Injected via JS -->
+            </div>
+            <div id="detail-modal-footer" class="p-5 sm:p-6 border-t border-slate-100 bg-slate-50 hidden">
+                <!-- Action Buttons Injected via JS -->
+            </div>
+        </div>
+    </div>
+
     <div id="view-login" class="w-full h-full flex flex-col md:flex-row bg-white absolute z-50 inset-0 transition-opacity duration-700">
         <!-- Left Branding -->
         <div class="hidden md:flex w-1/2 bg-gradient-to-br from-awBlue to-indigo-900 flex-col justify-center items-center p-12 relative overflow-hidden">
@@ -265,7 +281,7 @@
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
                         <!-- CARD 1: Jadwal & JP -->
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-full min-h-[16rem]">
+                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative h-full min-h-[16rem]">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-blue-50 text-awBlue flex items-center justify-center text-xl shadow-sm border border-blue-100"><i class="fa-solid fa-chalkboard-user"></i></div>
                                 <span class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1"><i class="fa-regular fa-clock"></i> <span id="ui-total-jp">0 JP</span></span>
@@ -278,7 +294,7 @@
                         </div>
 
                         <!-- CARD 2: Info Infal -->
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-full min-h-[16rem]">
+                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative h-full min-h-[16rem]">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-orange-50 text-awOrange flex items-center justify-center text-xl shadow-sm border border-orange-100"><i class="fa-solid fa-user-nurse"></i></div>
                             </div>
@@ -290,12 +306,12 @@
                         </div>
 
                         <!-- CARD 3: Persentase Kehadiran -->
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-full min-h-[16rem]">
+                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative h-full min-h-[16rem]">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-green-50 text-emerald-600 flex items-center justify-center text-xl shadow-sm border border-green-100"><i class="fa-solid fa-fingerprint"></i></div>
                             </div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Performa Kehadiran</h4>
-                            <p class="text-xs font-medium text-slate-400 mb-2">Bulan berjalan (berdasarkan fingerprint)</p>
+                            <p class="text-xs font-medium text-slate-400 mb-4">Bulan berjalan (berdasarkan gerbang)</p>
                             <div id="ui-kehadiran-container" class="flex-1 flex flex-col justify-end">
                                  <p class="text-sm text-slate-500 font-medium italic"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Menghitung...</p>
                             </div>
@@ -305,12 +321,12 @@
 
                 <!-- TAB EVENT -->
                 <div id="tab-event" class="tab-content hidden-view fade-in">
-                    <div id="event-dynamic-container"><div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div></div>
+                    <div id="event-dynamic-container" class="space-y-6"><div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div></div>
                 </div>
                 
                 <!-- TAB COMMISSION -->
                 <div id="tab-commission" class="tab-content hidden-view fade-in">
-                    <div id="comm-dynamic-container"><div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div></div>
+                    <div id="comm-dynamic-container" class="space-y-6"><div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div></div>
                 </div>
 
                 <div id="tab-eis" class="tab-content hidden-view fade-in">
@@ -357,19 +373,13 @@
                             
                             <!-- Scanner Target Box -->
                             <div class="w-full scanner-container scanner-corners mb-4 flex items-center justify-center relative bg-black border border-slate-700">
-                                
-                                <!-- Switch Camera Button -->
                                 <button onclick="flipCamera()" class="absolute top-3 right-3 z-20 bg-slate-800/80 hover:bg-slate-700 p-2.5 rounded-full text-white backdrop-blur-md shadow-lg transition-colors" title="Putar Kamera">
                                     <i class="fa-solid fa-camera-rotate text-lg"></i>
                                 </button>
 
-                                <!-- Target for html5-qrcode -->
                                 <div id="reader" class="w-full h-full absolute inset-0 z-0"></div>
-                                
-                                <!-- Decorative Laser -->
                                 <div id="scan-laser-decor" class="scan-laser hidden"></div>
 
-                                <!-- Loading Overlay inside Scanner (Anti Blank Screen) -->
                                 <div id="scan-loading-overlay" class="hidden absolute inset-0 bg-slate-900/80 backdrop-blur-md z-30 flex flex-col items-center justify-center">
                                     <i class="fa-solid fa-expand fa-beat text-4xl text-emerald-400 mb-3"></i>
                                     <p class="text-white font-bold tracking-widest text-sm animate-pulse">MEMVALIDASI...</p>
@@ -395,8 +405,10 @@
 
         let appState = {
             user: null, 
-            roles: { event: null, commission: null },
-            scanMode: 'in'
+            teacherList: [], // Data Guru Untuk Dropdown
+            roles: { events: [], commissions: [] }, // Multi-Role
+            scanMode: 'in',
+            selectedContext: null // For Modal Handling
         };
         
         let html5QrCode = null;
@@ -438,6 +450,11 @@
             btn.innerHTML = `<div class="loader-spin"></div> <span>Authenticating...</span>`;
             btn.disabled = true;
 
+            // Fetch Teacher List Simultaneously
+            if(appState.teacherList.length === 0) {
+                apiGet('getTeacherList').then(res => { if(res.status === 'success') appState.teacherList = res.data.teachers; });
+            }
+
             const res = await apiPost('login', { username: userInp, password: passInp });
 
             if (res.status === 'success' && res.data.role === 'Teacher') {
@@ -478,7 +495,7 @@
                     const colors = ['awOrange', 'awBlue', 'awGreen'];
                     data.tickerEvents.forEach((ev, i) => {
                         let c = colors[i % colors.length];
-                        html += `<span class="flex items-center gap-2 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100"><i class="fa-solid fa-thumbtack text-${c}"></i> <strong>${ev.namaEvent}:</strong> ${ev.tanggalRaw}</span>`;
+                        html += `<span class="flex items-center gap-2 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100"><i class="fa-solid fa-thumbtack text-${c}"></i> <strong class="text-slate-700">${ev.namaEvent}:</strong> ${ev.tanggalRaw}</span>`;
                     });
                     tickerWrap.innerHTML = html + html; 
                 } else {
@@ -531,12 +548,15 @@
                     let total = data.kehadiranBulanIni.hadir;
                     let telat = data.kehadiranBulanIni.telat;
                     let tepatWaktu = total - telat;
+                    let pct = total > 0 ? Math.round((tepatWaktu / total) * 100) : 0;
                     
                     hadirContainer.innerHTML = `
-                        <div class="flex items-end gap-2 mb-3">
-                            <span class="text-3xl font-extrabold text-slate-800 leading-none">${total}</span>
-                            <span class="text-[10px] sm:text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">HARI HADIR</span>
+                        <div class="flex items-end gap-3 mb-2">
+                            <span class="text-5xl font-extrabold text-emerald-500 leading-none">${pct}%</span>
+                            <div class="pb-1"><span class="bg-emerald-100 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider flex items-center gap-1"><i class="fa-solid fa-arrow-trend-up"></i> Tepat Waktu</span></div>
                         </div>
+                        <p class="text-slate-600 font-extrabold text-lg mb-4">${total} <span class="text-sm font-medium text-slate-400">HARI HADIR</span></p>
+                        
                         <div class="space-y-2.5">
                             <div>
                                 <div class="flex justify-between text-[10px] sm:text-xs font-bold mb-1"><span class="text-emerald-600">Tepat Waktu</span><span class="text-slate-600">${tepatWaktu}x</span></div>
@@ -552,6 +572,11 @@
             }
         }
 
+        function getTeacherOptions() {
+            if(!appState.teacherList || appState.teacherList.length === 0) return '<option value="">Sedang memuat data...</option>';
+            return '<option value="">Pilih Guru...</option>' + appState.teacherList.map(t => `<option value="${t}">${t}</option>`).join('');
+        }
+
         async function loadTeacherRoles() {
             const res = await apiGet('getTeacherRoles', { nama: appState.user.namaLengkap });
             if (res.status === 'success') {
@@ -561,158 +586,155 @@
             }
         }
 
-        function handleLogout() {
-            appState.user = null;
-            document.getElementById('view-app').classList.add('hidden-view');
-            document.getElementById('view-login').classList.remove('hidden');
-            setTimeout(() => document.getElementById('view-login').classList.remove('opacity-0'), 50);
-            document.getElementById('login-form').reset();
-            switchTab('dashboard'); 
-            if(isScannerRunning) stopScanner();
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden-view'));
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.classList.remove('bg-awBlueLight', 'text-awBlue');
-                el.classList.add('text-slate-500');
-                const iconBox = el.querySelector('div');
-                if(iconBox) {
-                    iconBox.classList.remove('bg-white', 'text-awBlue', 'shadow-sm');
-                    iconBox.classList.add('text-slate-400');
-                }
-            });
-            
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden-view');
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            activeNav.classList.remove('text-slate-500');
-            activeNav.classList.add('bg-awBlueLight', 'text-awBlue');
-            const activeIconBox = activeNav.querySelector('div');
-            if(activeIconBox) {
-                activeIconBox.classList.remove('text-slate-400');
-                activeIconBox.classList.add('bg-white', 'text-awBlue', 'shadow-sm');
-            }
-            
-            const titles = { 'dashboard': 'Dashboard Overview', 'event': 'Event', 'commission': 'Commission', 'eis': 'EIS System', 'scanner': 'Web Scanner', 'report': 'Report Tools' };
-            document.getElementById('topbar-title').innerText = titles[tabId] || 'Portal Guru';
-
-            if (tabId !== 'scanner' && isScannerRunning) stopScanner();
-            if(window.innerWidth < 768) {
-                document.getElementById('sidebar').classList.add('-translate-x-full');
-                document.getElementById('sidebar-overlay').classList.add('hidden');
-            }
-        }
-
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-            document.getElementById('sidebar-overlay').classList.toggle('hidden');
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-info';
-            toast.innerHTML = `<i class="fa-solid ${icon} text-lg shrink-0"></i> <span class="font-medium leading-tight">${message}</span>`;
-            
-            container.appendChild(toast);
-            void toast.offsetWidth; 
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3500);
-        }
-
         // ==========================================
-        // RENDER & LOGIC: EVENT (Sistem Kartu Tugas)
+        // RENDER & LOGIC: EVENT (Sistem Kartu Tugas Multi-Role)
         // ==========================================
         function renderEventView() {
             const container = document.getElementById('event-dynamic-container');
-            const r = appState.roles.event || {};
+            container.innerHTML = '';
+            const events = appState.roles.events || [];
             
-            if (r.role === 'ketua') {
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6 relative overflow-hidden">
-                        <p class="text-xs font-bold text-awBlue uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-crown text-amber-500"></i> Ketua Event</p>
-                        <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                        <p class="text-sm text-slate-500 mt-2 mb-6 max-w-lg">Susun struktur divisi dan anggota kepanitiaan.</p>
-                        <button onclick="document.getElementById('event-form-area').classList.toggle('hidden')" class="px-6 py-3 bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Rancang Panitia</button>
-                        <div id="event-form-area" class="hidden mt-6 pt-6 border-t border-slate-100">
-                             <form onsubmit="submitCommittee(event, '${r.title}')">
-                                <div id="committee-rows-container" class="space-y-3 mb-4">${getCommitteeRowHTML()}</div>
-                                <button type="button" onclick="document.getElementById('committee-rows-container').insertAdjacentHTML('beforeend', getCommitteeRowHTML())" class="text-sm font-bold text-awBlue bg-blue-50 px-4 py-2 rounded-lg mb-6">+ Tambah Anggota</button>
-                                <button type="submit" id="btn-submit-committee" class="w-full sm:w-auto px-8 py-3 bg-awDark text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2"><span>Simpan</span></button>
-                             </form>
-                        </div>
-                    </div>`;
-            } else if (r.role === 'member') {
-                let tasks = r.tasks || [];
-                
-                // Kalau Belum Punya Action Plan Sama Sekali
-                if (tasks.length === 0) {
-                    container.innerHTML = `
-                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6 relative overflow-hidden">
-                            <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-users text-emerald-500"></i> Divisi ${r.divisi}</p>
-                            <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                            <p class="text-sm text-slate-500 mt-2 mb-6">Anda belum membuat rencana Action Plan untuk event ini.</p>
-                            <button onclick="document.getElementById('event-form-area').classList.toggle('hidden')" class="px-6 py-3 bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Buat Action Plan Baru</button>
-                            <div id="event-form-area" class="hidden mt-6 pt-6 border-t border-slate-100">
-                                 <form onsubmit="submitNewActionPlan(event, '${r.title}', '${r.divisi}')">
-                                    <div id="actionplan-rows-container" class="space-y-3 mb-4">${getActionPlanRowHTML()}</div>
-                                    <button type="button" onclick="document.getElementById('actionplan-rows-container').insertAdjacentHTML('beforeend', getActionPlanRowHTML())" class="text-sm font-bold text-awBlue bg-blue-50 px-4 py-2 rounded-lg mb-6">+ Tambah Tugas</button>
-                                    <button type="submit" id="btn-submit-actionplan" class="w-full sm:w-auto px-8 py-3 bg-awGreen text-slate-900 font-bold rounded-xl shadow-md flex items-center justify-center gap-2"><span>Kirim Tugas</span></button>
+            if (events.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-regular fa-calendar-xmark"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Event</h3><p class="text-slate-500 text-sm">Anda belum ditugaskan dalam event apapun.</p></div>`;
+                return;
+            }
+
+            events.forEach((ev, evIndex) => {
+                let cardHtml = '';
+                if (ev.role === 'ketua') {
+                    // Cek Progress Seluruh Divisi
+                    let totalDivisi = ev.panitia.map(p => p.divisi).filter((v,i,a) => a.indexOf(v) === i).length;
+                    
+                    // Render Divisi Cards (Jika ada panitia)
+                    let divisiCardsHtml = '';
+                    if (ev.panitia && ev.panitia.length > 0) {
+                        let divMap = {};
+                        ev.panitia.forEach(p => { if(!divMap[p.divisi]) divMap[p.divisi] = []; divMap[p.divisi].push(p.nama); });
+                        
+                        Object.keys(divMap).forEach(divName => {
+                            let divTasks = ev.allTasks.filter(t => t.divisi === divName);
+                            let divDone = divTasks.filter(t => t.status === 'Selesai').length;
+                            let pct = divTasks.length > 0 ? Math.round((divDone/divTasks.length)*100) : 0;
+                            let memberNames = divMap[divName].join(', ');
+                            let scoreObj = ev.scores ? ev.scores.find(s => s.divisi === divName) : null;
+
+                            divisiCardsHtml += `
+                                <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col h-full" onclick="showDivisiDetail(${evIndex}, '${divName}')">
+                                    <h4 class="font-bold text-slate-700 text-lg mb-1">${divName}</h4>
+                                    <p class="text-xs text-slate-500 line-clamp-2 mb-4 h-8"><i class="fa-solid fa-user-group text-slate-400 mr-1"></i> ${memberNames}</p>
+                                    
+                                    <div class="mt-auto">
+                                        <div class="flex justify-between text-[10px] font-bold mb-1">
+                                            <span class="text-slate-500">Progress</span>
+                                            <span class="${pct === 100 ? 'text-emerald-500' : 'text-awBlue'}">${pct}%</span>
+                                        </div>
+                                        <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2">
+                                            <div class="${pct === 100 ? 'bg-emerald-500' : 'bg-awBlue'} h-1.5 rounded-full" style="width: ${pct}%"></div>
+                                        </div>
+                                        <p class="text-[10px] font-medium text-slate-400">${divDone} dari ${divTasks.length} Tugas Selesai</p>
+                                    </div>
+                                    ${pct === 100 ? `<div class="mt-3 text-center ${scoreObj ? 'bg-indigo-50 text-indigo-600' : 'bg-emerald-50 text-emerald-600'} text-xs font-bold py-1.5 rounded-lg border ${scoreObj ? 'border-indigo-100' : 'border-emerald-100'}">${scoreObj ? `Dinilai: ${scoreObj.nilai}` : '<i class="fa-solid fa-star"></i> Siap Dinilai'}</div>` : ''}
+                                </div>
+                            `;
+                        });
+                    }
+
+                    // Card Tampilan Ketua
+                    cardHtml = `
+                        <div class="bg-gradient-to-br from-white to-slate-50 rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
+                            <p class="text-xs font-bold text-awBlue uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-crown text-amber-500"></i> Ketua Event</p>
+                            <h3 class="text-2xl font-extrabold text-slate-800 mb-6">${ev.title}</h3>
+                            
+                            <div class="flex flex-wrap gap-3 mb-6">
+                                <button onclick="document.getElementById('form-panitia-${evIndex}').classList.toggle('hidden')" class="px-5 py-2.5 bg-awBlue hover:bg-blue-800 text-white text-sm font-bold rounded-xl shadow-md transition-all"><i class="fa-solid fa-sitemap mr-1"></i> Rancang Panitia</button>
+                                <button onclick="document.getElementById('form-apumum-${evIndex}').classList.toggle('hidden')" class="px-5 py-2.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-bold rounded-xl shadow-sm transition-all"><i class="fa-solid fa-list-check mr-1"></i> Action Plan Umum</button>
+                            </div>
+
+                            <!-- Rancang Panitia Form -->
+                            <div id="form-panitia-${evIndex}" class="hidden mb-6 p-5 bg-white border border-blue-100 rounded-2xl shadow-sm">
+                                 <form onsubmit="submitCommittee(event, '${ev.title}', ${evIndex})">
+                                    <div id="comm-container-${evIndex}" class="space-y-3 mb-4">${getCommitteeRowHTML()}</div>
+                                    <button type="button" onclick="document.getElementById('comm-container-${evIndex}').insertAdjacentHTML('beforeend', getCommitteeRowHTML())" class="text-xs font-bold text-awBlue bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg mb-4 transition-colors">+ Tambah Anggota Divisi</button>
+                                    <div class="border-t border-slate-100 pt-4">
+                                        <button type="submit" id="btn-sub-comm-${evIndex}" class="w-full sm:w-auto px-6 py-2.5 bg-awDark text-white text-sm font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Simpan Panitia</span></button>
+                                    </div>
                                  </form>
                             </div>
-                        </div>`;
-                } else {
-                    // Kalau Sudah Punya (Render Sistem Kartu)
+
+                            <!-- Rancang Action Plan Umum Form -->
+                            <div id="form-apumum-${evIndex}" class="hidden mb-6 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm">
+                                 <h4 class="font-bold text-slate-700 mb-3 text-sm">Action Plan Pribadi Ketua (Umum)</h4>
+                                 <form onsubmit="submitNewActionPlan(event, '${ev.title}', 'Ketua Umum', ${evIndex})">
+                                    <div id="apumum-container-${evIndex}" class="space-y-3 mb-4">${getActionPlanRowHTML()}</div>
+                                    <button type="button" onclick="document.getElementById('apumum-container-${evIndex}').insertAdjacentHTML('beforeend', getActionPlanRowHTML())" class="text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg mb-4 transition-colors">+ Tambah Tugas</button>
+                                    <div class="border-t border-slate-100 pt-4">
+                                        <button type="submit" id="btn-sub-apumum-${evIndex}" class="w-full sm:w-auto px-6 py-2.5 bg-awDark text-white text-sm font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Simpan Tugas Umum</span></button>
+                                    </div>
+                                 </form>
+                            </div>
+
+                            ${ev.panitia.length > 0 ? `
+                                <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Pantauan Progress Divisi</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    ${divisiCardsHtml}
+                                </div>
+                            ` : `<div class="p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-center"><p class="text-sm font-medium text-slate-500">Panitia belum dirancang. Silakan klik Rancang Panitia.</p></div>`}
+                        </div>
+                    `;
+                } 
+                else if (ev.role === 'member') {
+                    let tasks = ev.tasks || [];
                     let completedTasks = tasks.filter(t => t.status === 'Selesai').length;
                     let progressPct = tasks.length > 0 ? (completedTasks / tasks.length) * 100 : 0;
                     
-                    let cardsHtml = '';
-                    tasks.forEach((task, index) => {
-                        let isDone = task.status === 'Selesai';
-                        let fileInputId = `ap-proof-${index}`;
-                        
-                        cardsHtml += `
-                            <div class="bg-slate-50 border ${isDone ? 'border-emerald-200' : 'border-slate-200'} rounded-2xl p-5 shadow-sm transition-all relative overflow-hidden group">
-                                ${isDone ? '<div class="absolute right-0 top-0 w-20 h-20 bg-emerald-400 opacity-10 rounded-full blur-xl"></div>' : ''}
-                                <div class="flex justify-between items-start mb-3">
-                                    <h4 class="font-bold text-slate-700 text-lg pr-4">${task.tugas}</h4>
-                                    <span class="shrink-0 ${isDone ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                                        <i class="fa-solid ${isDone ? 'fa-check' : 'fa-xmark'}"></i>
-                                    </span>
-                                </div>
-                                <p class="text-xs font-semibold text-slate-500 mb-4"><i class="fa-regular fa-calendar mr-1"></i> Deadline: ${task.deadline}</p>
-                                
-                                ${!isDone ? `
-                                    <div class="mt-4 pt-4 border-t border-slate-200">
-                                        <p class="text-xs font-bold text-slate-600 mb-2">Upload Bukti Penyelesaian:</p>
-                                        <div class="flex gap-2">
-                                            <input type="file" id="${fileInputId}" class="flex-1 text-xs border border-slate-200 rounded-lg p-1.5 bg-white file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-awBlueLight file:text-awBlue hover:file:bg-blue-100 cursor-pointer" accept="image/*,.pdf">
-                                            <button id="btn-up-ap-${index}" onclick="uploadActionPlanProof(this, '${r.title}', '${r.divisi}', '${task.tugas}', '${fileInputId}')" class="bg-awBlue text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors flex items-center justify-center min-w-[80px]">
-                                                <span>Upload</span>
-                                            </button>
+                    let taskCardsHtml = '';
+                    if(tasks.length > 0) {
+                        tasks.forEach((task, tIndex) => {
+                            let isDone = task.status === 'Selesai';
+                            let fileInputId = `ap-proof-${evIndex}-${tIndex}`;
+                            
+                            taskCardsHtml += `
+                                <div class="bg-slate-50 border ${isDone ? 'border-emerald-200' : 'border-slate-200'} rounded-2xl p-5 shadow-sm transition-all relative overflow-hidden group">
+                                    ${isDone ? '<div class="absolute right-0 top-0 w-20 h-20 bg-emerald-400 opacity-10 rounded-full blur-xl"></div>' : ''}
+                                    <div class="flex justify-between items-start mb-3">
+                                        <h4 class="font-bold text-slate-700 text-sm sm:text-base pr-4">${task.tugas}</h4>
+                                        <span class="shrink-0 ${isDone ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm">
+                                            <i class="fa-solid ${isDone ? 'fa-check' : 'fa-xmark'}"></i>
+                                        </span>
+                                    </div>
+                                    <p class="text-[11px] sm:text-xs font-semibold text-slate-500 mb-4"><i class="fa-regular fa-calendar mr-1"></i> Deadline: ${task.deadline}</p>
+                                    
+                                    ${!isDone ? `
+                                        <div class="mt-4 pt-4 border-t border-slate-200">
+                                            <p class="text-[10px] font-bold text-slate-600 mb-2 uppercase tracking-wide">Upload Bukti Penyelesaian</p>
+                                            <div class="flex flex-col sm:flex-row gap-2">
+                                                <input type="file" id="${fileInputId}" class="flex-1 text-[11px] border border-slate-200 rounded-lg p-1.5 bg-white file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:font-semibold file:bg-awBlueLight file:text-awBlue hover:file:bg-blue-100 cursor-pointer" accept="image/*,.pdf">
+                                                <button id="btn-up-ap-${evIndex}-${tIndex}" onclick="uploadActionPlanProof(this, '${ev.title}', '${ev.divisi}', '${task.tugas}', '${fileInputId}')" class="bg-awBlue text-white text-[11px] sm:text-xs font-bold px-4 py-2.5 rounded-lg hover:bg-blue-800 transition-colors flex items-center justify-center min-w-[80px]">
+                                                    <span>Kirim</span>
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                ` : `
-                                    <div class="mt-4 pt-3 border-t border-emerald-100">
-                                        <a href="${task.bukti}" target="_blank" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"><i class="fa-solid fa-link"></i> Lihat Bukti Terlampir</a>
-                                    </div>
-                                `}
-                            </div>
-                        `;
-                    });
+                                    ` : `
+                                        <div class="mt-4 pt-3 border-t border-emerald-100">
+                                            <a href="${task.bukti}" target="_blank" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"><i class="fa-solid fa-link"></i> Lihat Bukti</a>
+                                        </div>
+                                    `}
+                                </div>`;
+                        });
+                    }
 
-                    container.innerHTML = `
-                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6">
+                    cardHtml = `
+                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
                             <div class="flex justify-between items-start mb-6">
                                 <div>
-                                    <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-users"></i> Divisi ${r.divisi}</p>
-                                    <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
+                                    <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-users"></i> Divisi ${ev.divisi}</p>
+                                    <h3 class="text-2xl font-extrabold text-slate-800">${ev.title}</h3>
                                 </div>
+                                ${ev.nilai ? `<div class="bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold px-3 py-1.5 rounded-xl text-xs sm:text-sm shadow-sm flex flex-col items-center"><span class="text-[10px] uppercase">Nilai</span><span>${ev.nilai}</span></div>` : ''}
                             </div>
                             
                             <!-- Progress Bar -->
-                            <div class="mb-8 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <div class="mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
                                 <div class="flex justify-between text-sm font-bold mb-2">
                                     <span class="text-slate-600">Progress Divisi</span>
                                     <span class="${progressPct === 100 ? 'text-emerald-600' : 'text-awBlue'}">${Math.round(progressPct)}%</span>
@@ -720,60 +742,83 @@
                                 <div class="w-full bg-slate-200 rounded-full h-2.5">
                                     <div class="${progressPct === 100 ? 'bg-emerald-500' : 'bg-awBlue'} h-2.5 rounded-full transition-all duration-1000" style="width: ${progressPct}%"></div>
                                 </div>
-                                <p class="text-xs font-medium text-slate-400 mt-2">${completedTasks} dari ${tasks.length} tugas diselesaikan</p>
+                                <p class="text-xs font-medium text-slate-400 mt-2">${completedTasks} dari ${tasks.length} tugas diselesaikan oleh divisi</p>
                             </div>
 
-                            <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Daftar Action Plan</h4>
+                            ${tasks.length === 0 ? `
+                                <div class="p-6 bg-slate-50 border border-slate-200 border-dashed rounded-2xl text-center mb-4">
+                                    <p class="text-sm text-slate-600 font-medium mb-4">Divisi Anda belum memiliki daftar Action Plan.</p>
+                                    <button onclick="document.getElementById('form-ap-${evIndex}').classList.toggle('hidden')" class="px-5 py-2.5 bg-awBlue hover:bg-blue-800 text-white text-sm font-bold rounded-xl shadow-md transition-all"><i class="fa-solid fa-plus mr-1"></i> Buat Action Plan Divisi</button>
+                                </div>
+                            ` : `
+                                <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
+                                    <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Daftar Tugas</h4>
+                                    <button onclick="document.getElementById('form-ap-${evIndex}').classList.toggle('hidden')" class="text-xs font-bold text-awBlue hover:text-blue-800"><i class="fa-solid fa-plus"></i> Tugas Baru</button>
+                                </div>
+                            `}
+
+                            <div id="form-ap-${evIndex}" class="hidden mb-6 p-5 bg-slate-50 border border-slate-200 rounded-2xl shadow-inner">
+                                 <form onsubmit="submitNewActionPlan(event, '${ev.title}', '${ev.divisi}', ${evIndex})">
+                                    <div id="ap-container-${evIndex}" class="space-y-3 mb-4">${getActionPlanRowHTML()}</div>
+                                    <button type="button" onclick="document.getElementById('ap-container-${evIndex}').insertAdjacentHTML('beforeend', getActionPlanRowHTML())" class="text-xs font-bold text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 px-4 py-2 rounded-lg mb-4 transition-colors">+ Tambah Baris Tugas</button>
+                                    <div class="border-t border-slate-200 pt-4">
+                                        <button type="submit" id="btn-sub-ap-${evIndex}" class="w-full sm:w-auto px-6 py-2.5 bg-awDark text-white text-sm font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Kirim Rencana</span></button>
+                                    </div>
+                                 </form>
+                            </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                ${cardsHtml}
+                                ${taskCardsHtml}
                             </div>
                         </div>
                     `;
                 }
-            } else {
-                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-regular fa-calendar-xmark"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Event</h3><p class="text-slate-500 text-sm">Anda belum ditugaskan dalam event apapun.</p></div>`;
-            }
+                container.insertAdjacentHTML('beforeend', cardHtml);
+            });
         }
 
-        // HTML Templates
-        function getActionPlanRowHTML() { return `<div class="flex flex-col sm:flex-row gap-3 ap-row items-start sm:items-center bg-slate-50 p-3 rounded-xl border border-slate-100"><input type="text" class="ap-task w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Rencana tugas..." required><input type="date" class="ap-date w-full sm:w-auto border border-slate-200 rounded-lg p-2.5 text-sm font-medium text-slate-600" required><button type="button" onclick="this.closest('.ap-row').remove()" class="w-full sm:w-10 h-10 bg-white border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash"></i></button></div>`; }
-        function getCommitteeRowHTML() { return `<div class="flex flex-col sm:flex-row gap-3 comm-row items-start sm:items-center bg-slate-50 p-3 rounded-xl border border-slate-100"><input type="text" class="comm-div w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Nama Divisi" required><input type="text" class="comm-guru w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Nama Guru" required><button type="button" onclick="this.closest('.comm-row').remove()" class="w-full sm:w-10 h-10 bg-white border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash"></i></button></div>`; }
+        // HTML Templates with Dropdowns
+        function getActionPlanRowHTML() { 
+            return `<div class="flex flex-col sm:flex-row gap-2 ap-row items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200"><input type="text" class="ap-task w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-awBlueLight focus:outline-none" placeholder="Rencana tugas..." required><input type="date" class="ap-date w-full sm:w-40 border border-slate-200 rounded-lg p-2.5 text-sm font-medium text-slate-600 focus:ring-2 focus:ring-awBlueLight focus:outline-none" required><button type="button" onclick="this.closest('.ap-row').remove()" class="w-full sm:w-10 h-10 bg-slate-50 border border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"><i class="fa-solid fa-trash"></i></button></div>`; 
+        }
+        function getCommitteeRowHTML() { 
+            return `<div class="flex flex-col sm:flex-row gap-2 comm-row items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200"><input type="text" class="comm-div w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-awBlueLight focus:outline-none" placeholder="Nama Divisi (Misal: Konsumsi)" required><select class="comm-guru w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-awBlueLight focus:outline-none" required>${getTeacherOptions()}</select><button type="button" onclick="this.closest('.comm-row').remove()" class="w-full sm:w-10 h-10 bg-slate-50 border border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"><i class="fa-solid fa-trash"></i></button></div>`; 
+        }
 
         // Logic Submit
-        async function submitCommittee(e, namaEvent) { 
+        async function submitCommittee(e, namaEvent, idx) { 
             e.preventDefault(); 
-            const btn = document.getElementById('btn-submit-committee');
+            const btn = document.getElementById(`btn-sub-comm-${idx}`);
+            const originalContent = btn.innerHTML;
             btn.innerHTML = `<div class="loader-spin"></div> <span>Menyimpan...</span>`;
             btn.disabled = true;
 
-            const rows = document.querySelectorAll('.comm-row');
+            const rows = e.target.querySelectorAll('.comm-row');
             let anggota = [];
             rows.forEach(row => {
                 anggota.push({ divisi: row.querySelector('.comm-div').value, namaGuru: row.querySelector('.comm-guru').value });
             });
             
-            const payload = { namaEvent: namaEvent, anggota: anggota };
-            const res = await apiPost('saveKepanitiaan', payload);
+            const res = await apiPost('saveKepanitiaan', { namaEvent: namaEvent, anggota: anggota });
             
             if(res.status === 'success') {
                 showToast(res.message, 'success');
-                e.target.reset();
-                document.getElementById('event-form-area').classList.add('hidden');
+                loadTeacherRoles(); // Reload fresh data
             } else {
                 showToast(res.message, 'error');
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
             }
-            
-            btn.innerHTML = `<span>Simpan</span>`;
-            btn.disabled = false;
         }
 
-        async function submitNewActionPlan(e, namaEvent, divisi) {
+        async function submitNewActionPlan(e, namaEvent, divisi, idx) {
             e.preventDefault();
-            const btn = document.getElementById('btn-submit-actionplan');
+            const btn = document.getElementById(divisi === 'Ketua Umum' ? `btn-sub-apumum-${idx}` : `btn-sub-ap-${idx}`);
+            const originalContent = btn.innerHTML;
             btn.innerHTML = `<div class="loader-spin"></div> <span>Mengirim...</span>`;
             btn.disabled = true;
 
-            const rows = document.querySelectorAll('.ap-row');
+            const rows = e.target.querySelectorAll('.ap-row');
             let promises = [];
             
             rows.forEach(row => {
@@ -787,9 +832,7 @@
             });
 
             await Promise.all(promises);
-            showToast('Semua rencana Action Plan berhasil disimpan!', 'success');
-            
-            // Reload UI to show Cards
+            showToast('Semua rencana tugas berhasil disimpan!', 'success');
             loadTeacherRoles(); 
         }
 
@@ -800,28 +843,20 @@
                 return;
             }
 
-            const file = fileInput.files[0];
-            
-            // UI Loading
             const originalContent = btnEl.innerHTML;
             btnEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>`;
             btnEl.disabled = true;
             fileInput.disabled = true;
 
             try {
-                const base64Data = await fileToBase64(file);
-                const payload = {
-                    namaEvent: namaEvent,
-                    divisi: divisi,
-                    tugas: tugas,
-                    fileName: file.name,
-                    base64File: base64Data
-                };
-
-                const res = await apiPost('updateActionPlanProof', payload);
+                const base64Data = await fileToBase64(fileInput.files[0]);
+                const res = await apiPost('updateActionPlanProof', {
+                    namaEvent: namaEvent, divisi: divisi, tugas: tugas,
+                    fileName: fileInput.files[0].name, base64File: base64Data
+                });
+                
                 if (res.status === 'success') {
                     showToast('Bukti diupload! Tugas selesai.', 'success');
-                    // Refresh data
                     loadTeacherRoles();
                 } else {
                     showToast(res.message, 'error');
@@ -830,178 +865,393 @@
                     fileInput.disabled = false;
                 }
             } catch (error) {
-                showToast('Gagal memproses file.', 'error');
+                showToast('Gagal memproses file. Pastikan ukuran tidak terlalu besar.', 'error');
                 btnEl.innerHTML = originalContent;
                 btnEl.disabled = false;
                 fileInput.disabled = false;
             }
         }
 
+        // Modal Action Plan Divisi untuk Ketua
+        function showDivisiDetail(evIndex, divName) {
+            appState.selectedContext = { type: 'Event', evIndex: evIndex, divName: divName };
+            const ev = appState.roles.events[evIndex];
+            const divTasks = ev.allTasks.filter(t => t.divisi === divName);
+            const scoreObj = ev.scores ? ev.scores.find(s => s.divisi === divName) : null;
+            
+            let completed = divTasks.filter(t => t.status === 'Selesai').length;
+            let isFullComplete = divTasks.length > 0 && completed === divTasks.length;
+
+            let html = `
+                <div class="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Event: ${ev.title}</p>
+                        <h4 class="text-lg font-bold text-slate-800">Detail Divisi ${divName}</h4>
+                    </div>
+                </div>
+                <div class="space-y-3 mb-6">
+            `;
+
+            if(divTasks.length === 0) {
+                html += `<p class="text-sm text-slate-500 italic text-center py-4">Divisi ini belum menyusun Action Plan.</p>`;
+            } else {
+                divTasks.forEach(t => {
+                    let isDone = t.status === 'Selesai';
+                    html += `
+                        <div class="flex justify-between items-center p-3 rounded-xl ${isDone ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-50 border border-slate-100'}">
+                            <div>
+                                <p class="text-sm font-bold ${isDone ? 'text-emerald-800' : 'text-slate-700'}">${t.tugas}</p>
+                                <p class="text-[10px] ${isDone ? 'text-emerald-600' : 'text-slate-500'} font-medium"><i class="fa-regular fa-calendar mr-1"></i> ${t.deadline}</p>
+                            </div>
+                            ${isDone ? `<a href="${t.bukti}" target="_blank" class="w-8 h-8 rounded-full bg-emerald-200 text-emerald-700 flex items-center justify-center hover:bg-emerald-300 transition-colors" title="Lihat Bukti"><i class="fa-solid fa-paperclip"></i></a>` : `<span class="w-8 h-8 rounded-full bg-slate-200 text-slate-400 flex items-center justify-center"><i class="fa-solid fa-hourglass-half"></i></span>`}
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+
+            document.getElementById('detail-modal-content').innerHTML = html;
+            
+            const footer = document.getElementById('detail-modal-footer');
+            if (isFullComplete && !scoreObj) {
+                footer.innerHTML = `
+                    <div class="w-full flex gap-3">
+                        <select id="inp-nilai-div" class="w-24 border border-slate-200 rounded-xl p-2 text-sm font-bold focus:outline-none"><option value="100">100</option><option value="95">95</option><option value="90">90</option><option value="85">85</option><option value="80">80</option><option value="75">75</option></select>
+                        <input type="text" id="inp-feedback-div" placeholder="Komentar / Feedback..." class="flex-1 border border-slate-200 rounded-xl p-2 text-sm focus:outline-none focus:border-awBlue">
+                        <button onclick="submitScoring('Event', '${ev.title}', '${divName}', '${divName}')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-colors whitespace-nowrap">Beri Nilai</button>
+                    </div>
+                `;
+                footer.classList.remove('hidden');
+            } else if (scoreObj) {
+                footer.innerHTML = `<div class="w-full bg-indigo-50 border border-indigo-100 rounded-xl p-3 text-center"><p class="text-sm font-bold text-indigo-700"><i class="fa-solid fa-check-circle mr-1"></i> Anda telah memberikan nilai: ${scoreObj.nilai}</p></div>`;
+                footer.classList.remove('hidden');
+            } else {
+                footer.classList.add('hidden');
+            }
+
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('div').classList.remove('scale-90'); modal.querySelector('div').classList.add('scale-100'); }, 20);
+        }
+
         // ==========================================
-        // RENDER & LOGIC: COMMISSION (Timeline System)
+        // RENDER & LOGIC: COMMISSION (Timeline System Multi-Role)
         // ==========================================
         function renderCommissionView() {
             const container = document.getElementById('comm-dynamic-container');
-            const r = appState.roles.commission || {};
+            container.innerHTML = '';
+            const comms = appState.roles.commissions || [];
             
-            if (r.role === 'ketua') {
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6 relative overflow-hidden">
-                        <p class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-400"></i> Ketua Komisi</p>
-                        <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                        <p class="text-sm text-slate-500 mt-2 mb-6">Kelola daftar program kerja komisi beserta PIC.</p>
-                        <button onclick="document.getElementById('comm-form-area').classList.toggle('hidden')" class="px-6 py-3 bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Rancang Program</button>
-                        <div id="comm-form-area" class="hidden mt-6 pt-6 border-t border-slate-100">
-                             <form onsubmit="submitProgram(event, '${r.title}')">
-                                <div id="program-rows-container" class="space-y-3 mb-4">${getProgramRowHTML()}</div>
-                                <button type="button" onclick="document.getElementById('program-rows-container').insertAdjacentHTML('beforeend', getProgramRowHTML())" class="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-lg mb-6">+ Tambah Program</button>
-                                <button type="submit" id="btn-submit-program" class="w-full sm:w-auto px-8 py-3 bg-awDark text-white font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Simpan</span></button>
-                             </form>
-                        </div>
-                    </div>`;
-            } else if (r.role === 'pic') {
-                let history = r.history || [];
-                
-                let timelineHtml = '';
-                if(history.length > 0) {
-                    history.forEach((h, i) => {
-                        let tglStr = new Date(h.tanggal).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
-                        timelineHtml += `
-                            <div class="relative pl-6 sm:pl-8 py-3 group">
-                                <div class="absolute left-0 top-4 w-3 h-3 bg-awBlue rounded-full border-2 border-white shadow-sm z-10 group-hover:scale-125 transition-transform"></div>
-                                ${i !== history.length - 1 ? '<div class="absolute left-1.5 top-5 w-0.5 h-full bg-blue-100 -z-0"></div>' : ''}
-                                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <h4 class="font-bold text-slate-700">${h.keterangan}</h4>
-                                            <p class="text-xs text-slate-400 font-medium mt-0.5"><i class="fa-regular fa-clock mr-1"></i> ${tglStr}</p>
+            if (comms.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-solid fa-shield-cat"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Komisi</h3><p class="text-slate-500 text-sm">Anda belum tergabung dalam program komisi.</p></div>`;
+                return;
+            }
+
+            comms.forEach((cm, cmIndex) => {
+                let cardHtml = '';
+                if (cm.role === 'ketua') {
+                    
+                    let programCardsHtml = '';
+                    if (cm.programs && cm.programs.length > 0) {
+                        cm.programs.forEach(p => {
+                            let progHistory = cm.allHistory.filter(h => h.program === p.namaProgram);
+                            let scoreObj = cm.scores ? cm.scores.find(s => s.program === p.namaProgram) : null;
+                            let fileCount = progHistory.length;
+                            
+                            // Logika: 3 file = 100%. Max ditampilin 100%. Tapi unlock nilai kalau >= 6
+                            let displayPct = fileCount >= 3 ? 100 : Math.round((fileCount / 3) * 100);
+                            let isUnlocked = fileCount >= 6;
+
+                            programCardsHtml += `
+                                <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm hover:shadow-md cursor-pointer transition-all flex flex-col h-full" onclick="showProgramDetail(${cmIndex}, '${p.namaProgram}')">
+                                    <h4 class="font-bold text-slate-700 text-lg mb-1 line-clamp-1">${p.namaProgram}</h4>
+                                    <p class="text-xs text-slate-500 mb-4 h-4"><i class="fa-solid fa-user-tie text-slate-400 mr-1"></i> PIC: ${p.pic}</p>
+                                    
+                                    <div class="mt-auto">
+                                        <div class="flex justify-between text-[10px] font-bold mb-1">
+                                            <span class="text-slate-500">Progress Laporan</span>
+                                            <span class="${displayPct === 100 ? 'text-emerald-500' : 'text-awBlue'}">${displayPct}%</span>
                                         </div>
-                                        <a href="${h.bukti}" target="_blank" class="w-8 h-8 bg-blue-100 text-awBlue rounded-lg flex items-center justify-center hover:bg-awBlue hover:text-white transition-colors" title="Lihat Lampiran">
-                                            <i class="fa-solid fa-paperclip"></i>
-                                        </a>
+                                        <div class="w-full bg-slate-100 rounded-full h-1.5 mb-2">
+                                            <div class="${displayPct === 100 ? 'bg-emerald-500' : 'bg-awBlue'} h-1.5 rounded-full" style="width: ${displayPct}%"></div>
+                                        </div>
+                                        <p class="text-[10px] font-medium ${isUnlocked ? 'text-indigo-500' : 'text-slate-400'}">${fileCount} File Diupload ${isUnlocked ? '(Scoring Unlocked)' : '(Butuh 6 utk Nilai)'}</p>
+                                    </div>
+                                    ${scoreObj ? `<div class="mt-3 text-center bg-indigo-50 text-indigo-600 text-xs font-bold py-1.5 rounded-lg border border-indigo-100">Dinilai: ${scoreObj.nilai}</div>` : ''}
+                                </div>
+                            `;
+                        });
+                    }
+
+                    cardHtml = `
+                        <div class="bg-gradient-to-br from-white to-slate-50 rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
+                            <p class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-400"></i> Ketua Komisi</p>
+                            <h3 class="text-2xl font-extrabold text-slate-800 mb-6">${cm.title}</h3>
+                            
+                            <button onclick="document.getElementById('form-komisi-${cmIndex}').classList.toggle('hidden')" class="px-5 py-2.5 bg-awBlue hover:bg-blue-800 text-white text-sm font-bold rounded-xl shadow-md transition-all mb-6"><i class="fa-solid fa-network-wired mr-1"></i> Rancang Program</button>
+
+                            <!-- Rancang Program Form -->
+                            <div id="form-komisi-${cmIndex}" class="hidden mb-6 p-5 bg-white border border-blue-100 rounded-2xl shadow-sm">
+                                 <form onsubmit="submitProgram(event, '${cm.title}', ${cmIndex})">
+                                    <div id="program-container-${cmIndex}" class="space-y-3 mb-4">${getProgramRowHTML()}</div>
+                                    <button type="button" onclick="document.getElementById('program-container-${cmIndex}').insertAdjacentHTML('beforeend', getProgramRowHTML())" class="text-xs font-bold text-awBlue bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg mb-4 transition-colors">+ Tambah Program Baru</button>
+                                    <div class="border-t border-slate-100 pt-4">
+                                        <button type="submit" id="btn-sub-prog-${cmIndex}" class="w-full sm:w-auto px-6 py-2.5 bg-awDark text-white text-sm font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Simpan Daftar Program</span></button>
+                                    </div>
+                                 </form>
+                            </div>
+
+                            ${cm.programs && cm.programs.length > 0 ? `
+                                <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Pantauan Program (Klik untuk Detail)</h4>
+                                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                    ${programCardsHtml}
+                                </div>
+                            ` : `<div class="p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 text-center"><p class="text-sm font-medium text-slate-500">Program kerja komisi belum dirancang.</p></div>`}
+                        </div>
+                    `;
+                } 
+                else if (cm.role === 'pic') {
+                    let history = cm.history || [];
+                    let fileCount = history.length;
+                    let displayPct = fileCount >= 3 ? 100 : Math.round((fileCount / 3) * 100);
+                    
+                    let timelineHtml = '';
+                    if(history.length > 0) {
+                        history.forEach((h, i) => {
+                            timelineHtml += `
+                                <div class="relative pl-6 sm:pl-8 py-3 group">
+                                    <div class="absolute left-0 top-4 w-3 h-3 bg-awBlue rounded-full border-2 border-white shadow-sm z-10 group-hover:scale-125 transition-transform"></div>
+                                    ${i !== history.length - 1 ? '<div class="absolute left-1.5 top-5 w-0.5 h-full bg-blue-100 -z-0"></div>' : ''}
+                                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-bold text-slate-700 text-sm sm:text-base">${h.keterangan}</h4>
+                                                <p class="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5"><i class="fa-regular fa-clock mr-1"></i> ${h.tanggal}</p>
+                                            </div>
+                                            <a href="${h.bukti}" target="_blank" class="w-8 h-8 bg-blue-100 text-awBlue rounded-lg flex items-center justify-center hover:bg-awBlue hover:text-white transition-colors" title="Lihat Lampiran">
+                                                <i class="fa-solid fa-paperclip"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        timelineHtml = `<div class="text-center py-6 text-sm text-slate-400 font-medium italic bg-slate-50 rounded-xl border border-dashed border-slate-200">Belum ada histori laporan yang dikirimkan.</div>`;
+                    }
+
+                    cardHtml = `
+                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
+                            <div class="flex justify-between items-start mb-6">
+                                <div>
+                                    <p class="text-xs font-bold text-awOrange uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-bolt text-orange-400"></i> PIC Program</p>
+                                    <h3 class="text-2xl font-extrabold text-slate-800">${cm.program}</h3>
+                                    <p class="text-sm font-medium text-slate-500 mt-1">Komisi: <span class="text-slate-700">${cm.title}</span></p>
+                                </div>
+                                ${cm.nilai ? `<div class="bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold px-3 py-1.5 rounded-xl text-xs sm:text-sm shadow-sm flex flex-col items-center"><span class="text-[10px] uppercase">Nilai</span><span>${cm.nilai}</span></div>` : ''}
+                            </div>
+                            
+                            <div class="mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <div class="flex justify-between text-sm font-bold mb-2">
+                                    <span class="text-slate-600">Progress Pelaporan</span>
+                                    <span class="${displayPct === 100 ? 'text-emerald-600' : 'text-awBlue'}">${displayPct}%</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                                    <div class="${displayPct === 100 ? 'bg-emerald-500' : 'bg-awBlue'} h-2.5 rounded-full transition-all duration-1000" style="width: ${displayPct}%"></div>
+                                </div>
+                                <p class="text-xs font-medium text-slate-400 mt-2">${fileCount} Laporan terkirim (Target Dasar: 3)</p>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row gap-8">
+                                <!-- Left: Timeline -->
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Histori Timeline</h4>
+                                    <div class="relative">${timelineHtml}</div>
+                                </div>
+
+                                <!-- Right: Upload Form -->
+                                <div class="md:w-1/3 shrink-0">
+                                    <div class="bg-slate-800 rounded-2xl p-5 sm:p-6 text-white shadow-lg md:sticky md:top-24">
+                                        <h4 class="font-bold text-base sm:text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-cloud-arrow-up text-blue-400"></i> Laporan Baru</h4>
+                                        <form onsubmit="submitNewCommProgress(event, '${cm.program}', ${cmIndex})">
+                                            <div class="mb-4">
+                                                <label class="block text-[10px] font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Keterangan (Contoh: Laporan Pekan 1)</label>
+                                                <input type="text" id="inp-comm-ket-${cmIndex}" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors" required>
+                                            </div>
+                                            <div class="mb-6">
+                                                <label class="block text-[10px] font-semibold text-slate-400 mb-1.5 uppercase tracking-wide">Lampiran Bukti (Foto/PDF)</label>
+                                                <div class="border-2 border-dashed border-slate-600 rounded-xl p-4 text-center hover:border-blue-500 transition-colors cursor-pointer bg-slate-900/50" onclick="document.getElementById('comm-file-${cmIndex}').click()">
+                                                    <i class="fa-solid fa-file-arrow-up text-2xl text-slate-500 mb-2"></i>
+                                                    <p id="comm-filename-${cmIndex}" class="text-[11px] text-slate-400 font-medium break-words">Klik untuk pilih file</p>
+                                                    <input type="file" id="comm-file-${cmIndex}" class="hidden" accept="image/*,.pdf" onchange="document.getElementById('comm-filename-${cmIndex}').innerText = this.files[0].name" required>
+                                                </div>
+                                            </div>
+                                            <button type="submit" id="btn-sub-commprog-${cmIndex}" class="w-full py-3 bg-awBlue hover:bg-blue-600 text-white font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2">
+                                                <span>Kirim Laporan</span>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                        `;
-                    });
-                } else {
-                    timelineHtml = `<div class="text-center py-6 text-sm text-slate-400 font-medium italic bg-slate-50 rounded-xl border border-dashed border-slate-200">Belum ada histori laporan.</div>`;
+                        </div>`;
                 }
-
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6">
-                        <p class="text-xs font-bold text-awOrange uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-bolt text-orange-400"></i> PIC Program</p>
-                        <h3 class="text-2xl font-extrabold text-slate-800">${r.program}</h3>
-                        <p class="text-sm font-medium text-slate-500 mt-1 mb-8">Komisi: <span class="text-slate-700">${r.title}</span></p>
-                        
-                        <div class="flex flex-col md:flex-row gap-8">
-                            <!-- Left: Timeline -->
-                            <div class="flex-1">
-                                <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Histori Laporan</h4>
-                                <div class="relative">
-                                    ${timelineHtml}
-                                </div>
-                            </div>
-
-                            <!-- Right: Upload Form -->
-                            <div class="md:w-1/3 shrink-0">
-                                <div class="bg-slate-800 rounded-2xl p-6 text-white shadow-lg sticky top-24">
-                                    <h4 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-cloud-arrow-up text-blue-400"></i> Laporan Baru</h4>
-                                    <form onsubmit="submitNewCommProgress(event, '${r.program}')">
-                                        <div class="mb-4">
-                                            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Keterangan (Contoh: Pekan 1)</label>
-                                            <input type="text" id="inp-comm-ket" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-blue-500" required>
-                                        </div>
-                                        <div class="mb-6">
-                                            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Lampiran (Foto/PDF)</label>
-                                            <div class="border-2 border-dashed border-slate-600 rounded-xl p-4 text-center hover:border-blue-500 transition-colors cursor-pointer bg-slate-900/50" onclick="document.getElementById('comm-file-upload').click()">
-                                                <i class="fa-solid fa-file-arrow-up text-2xl text-slate-500 mb-2"></i>
-                                                <p id="comm-file-name" class="text-xs text-slate-400 font-medium break-words">Klik untuk pilih file</p>
-                                                <input type="file" id="comm-file-upload" class="hidden" accept="image/*,.pdf" onchange="document.getElementById('comm-file-name').innerText = this.files[0].name" required>
-                                            </div>
-                                        </div>
-                                        <button type="submit" id="btn-submit-comm-prog" class="w-full py-3 bg-awBlue hover:bg-blue-600 text-white font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2">
-                                            <span>Kirim Laporan</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-            } else {
-                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-solid fa-shield-cat"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Komisi</h3><p class="text-slate-500 text-sm">Anda belum tergabung dalam program komisi.</p></div>`;
-            }
+                container.insertAdjacentHTML('beforeend', cardHtml);
+            });
         }
 
-        function getProgramRowHTML() { return `<div class="flex flex-col sm:flex-row gap-3 comm-prog-row items-start sm:items-center bg-slate-50 p-3 rounded-xl border border-slate-100"><input type="text" class="prog-name w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Nama Program" required><input type="text" class="prog-pic w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="PIC (Guru)" required><button type="button" onclick="this.closest('.comm-prog-row').remove()" class="w-full sm:w-10 h-10 bg-white border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash"></i></button></div>`; }
-        
-        async function submitProgram(e, tipeKomisi) { 
+        // HTML Templates with Dropdowns
+        function getProgramRowHTML() { 
+            return `<div class="flex flex-col sm:flex-row gap-2 comm-prog-row items-start sm:items-center bg-white p-3 rounded-xl border border-slate-200"><input type="text" class="prog-name w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-awBlueLight" placeholder="Nama Program" required><select class="prog-pic w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-awBlueLight" required>${getTeacherOptions()}</select><button type="button" onclick="this.closest('.comm-prog-row').remove()" class="w-full sm:w-10 h-10 bg-slate-50 border border-slate-200 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"><i class="fa-solid fa-trash"></i></button></div>`; 
+        }
+
+        async function submitProgram(e, tipeKomisi, idx) { 
             e.preventDefault(); 
-            const btn = document.getElementById('btn-submit-program');
+            const btn = document.getElementById(`btn-sub-prog-${idx}`);
+            const originalContent = btn.innerHTML;
             btn.innerHTML = `<div class="loader-spin"></div> <span>Menyimpan...</span>`;
             btn.disabled = true;
 
-            const rows = document.querySelectorAll('.comm-prog-row');
+            const rows = e.target.querySelectorAll('.comm-prog-row');
             let programs = [];
             rows.forEach(row => {
                 programs.push({ namaProgram: row.querySelector('.prog-name').value, picGuru: row.querySelector('.prog-pic').value });
             });
             
-            const payload = { tipeKomisi: tipeKomisi, programs: programs };
-            const res = await apiPost('saveCommProgram', payload);
+            const res = await apiPost('saveCommProgram', { tipeKomisi: tipeKomisi, programs: programs });
             
             if(res.status === 'success') {
                 showToast(res.message, 'success');
-                e.target.reset();
-                document.getElementById('comm-form-area').classList.add('hidden');
+                loadTeacherRoles();
             } else {
                 showToast(res.message, 'error');
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
             }
-            
-            btn.innerHTML = `<span>Simpan</span>`;
-            btn.disabled = false;
         }
 
-        async function submitNewCommProgress(e, programName) {
+        async function submitNewCommProgress(e, programName, idx) {
             e.preventDefault();
-            const fileInput = document.getElementById('comm-file-upload');
-            const ketInput = document.getElementById('inp-comm-ket').value;
+            const fileInput = document.getElementById(`comm-file-${idx}`);
+            const ketInput = document.getElementById(`inp-comm-ket-${idx}`).value;
 
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showToast('Harap pilih file lampiran!', 'error');
-                return;
-            }
+            if (!fileInput.files || fileInput.files.length === 0) { showToast('Harap pilih file lampiran!', 'error'); return; }
 
-            const btn = document.getElementById('btn-submit-comm-prog');
+            const btn = document.getElementById(`btn-sub-commprog-${idx}`);
+            const originalContent = btn.innerHTML;
             btn.innerHTML = `<div class="loader-spin"></div> <span>Mengupload...</span>`;
             btn.disabled = true;
 
             try {
-                const file = fileInput.files[0];
-                const base64Data = await fileToBase64(file);
-                
-                const payload = {
-                    namaProgram: programName,
-                    picGuru: appState.user.namaLengkap,
-                    keterangan: ketInput,
-                    fileName: file.name,
-                    base64File: base64Data
-                };
+                const base64Data = await fileToBase64(fileInput.files[0]);
+                const res = await apiPost('saveCommProgress', {
+                    namaProgram: programName, picGuru: appState.user.namaLengkap, keterangan: ketInput,
+                    fileName: fileInput.files[0].name, base64File: base64Data
+                });
 
-                const res = await apiPost('saveCommProgress', payload);
                 if (res.status === 'success') {
                     showToast('Laporan berhasil ditambahkan!', 'success');
-                    // Refresh data
                     loadTeacherRoles();
                 } else {
                     showToast(res.message, 'error');
-                    btn.innerHTML = `<span>Kirim Laporan</span>`;
-                    btn.disabled = false;
+                    btn.innerHTML = originalContent; btn.disabled = false;
                 }
             } catch(err) {
-                showToast('Terjadi kesalahan saat upload.', 'error');
-                btn.innerHTML = `<span>Kirim Laporan</span>`;
-                btn.disabled = false;
+                showToast('Gagal upload. Ukuran file mungkin terlalu besar.', 'error');
+                btn.innerHTML = originalContent; btn.disabled = false;
+            }
+        }
+
+        // Modal Program Komisi untuk Ketua
+        function showProgramDetail(cmIndex, progName) {
+            appState.selectedContext = { type: 'Commission', cmIndex: cmIndex, progName: progName };
+            const cm = appState.roles.commissions[cmIndex];
+            
+            let progHistory = cm.allHistory.filter(h => h.program === progName);
+            let scoreObj = cm.scores ? cm.scores.find(s => s.program === progName) : null;
+            let fileCount = progHistory.length;
+            let isUnlocked = fileCount >= 6;
+
+            let html = `
+                <div class="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+                    <div>
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Komisi: ${cm.title}</p>
+                        <h4 class="text-lg font-bold text-slate-800">Timeline Program: ${progName}</h4>
+                    </div>
+                </div>
+                <div class="space-y-3 mb-6 relative">
+            `;
+
+            if(fileCount === 0) {
+                html += `<p class="text-sm text-slate-500 italic text-center py-4">Belum ada laporan masuk dari PIC.</p>`;
+            } else {
+                progHistory.forEach((h, i) => {
+                    html += `
+                        <div class="relative pl-6 py-2 group">
+                            <div class="absolute left-0 top-4 w-2.5 h-2.5 bg-awBlue rounded-full border border-white z-10"></div>
+                            ${i !== progHistory.length - 1 ? '<div class="absolute left-[4px] top-5 w-[2px] h-full bg-blue-100 -z-0"></div>' : ''}
+                            <div class="bg-slate-50 border border-slate-100 rounded-xl p-3 flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-slate-700 text-sm">${h.keterangan}</h4>
+                                    <p class="text-[10px] text-slate-500 font-medium">${h.tanggal} | Oleh: ${h.pic}</p>
+                                </div>
+                                <a href="${h.bukti}" target="_blank" class="w-8 h-8 rounded-full bg-blue-100 text-awBlue flex items-center justify-center hover:bg-blue-200 transition-colors" title="Lihat Lampiran"><i class="fa-solid fa-paperclip"></i></a>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            html += `</div>`;
+
+            document.getElementById('detail-modal-content').innerHTML = html;
+            
+            const footer = document.getElementById('detail-modal-footer');
+            if (isUnlocked && !scoreObj) {
+                // Get PIC name from the first history or from program list (need to find from program list)
+                let picName = cm.programs.find(p => p.namaProgram === progName)?.pic || '-';
+
+                footer.innerHTML = `
+                    <div class="w-full flex gap-3">
+                        <select id="inp-nilai-div" class="w-24 border border-slate-200 rounded-xl p-2 text-sm font-bold focus:outline-none"><option value="100">100</option><option value="95">95</option><option value="90">90</option><option value="85">85</option><option value="80">80</option><option value="75">75</option></select>
+                        <input type="text" id="inp-feedback-div" placeholder="Komentar untuk PIC..." class="flex-1 border border-slate-200 rounded-xl p-2 text-sm focus:outline-none focus:border-awBlue">
+                        <button onclick="submitScoring('Commission', '${cm.title}', '${progName}', '${picName}')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-sm transition-colors whitespace-nowrap">Beri Nilai</button>
+                    </div>
+                `;
+                footer.classList.remove('hidden');
+            } else if (scoreObj) {
+                footer.innerHTML = `<div class="w-full bg-indigo-50 border border-indigo-100 rounded-xl p-3 text-center"><p class="text-sm font-bold text-indigo-700"><i class="fa-solid fa-check-circle mr-1"></i> Anda telah memberikan nilai: ${scoreObj.nilai}</p></div>`;
+                footer.classList.remove('hidden');
+            } else {
+                footer.innerHTML = `<div class="w-full bg-slate-50 border border-slate-100 rounded-xl p-3 text-center"><p class="text-[11px] font-medium text-slate-500"><i class="fa-solid fa-lock mr-1"></i> Penilaian belum terbuka. PIC harus mengumpulkan minimal 6 file laporan.</p></div>`;
+                footer.classList.remove('hidden');
+            }
+
+            const modal = document.getElementById('detail-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('div').classList.remove('scale-90'); modal.querySelector('div').classList.add('scale-100'); }, 20);
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('detail-modal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-90');
+            modal.querySelector('div').classList.remove('scale-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+            appState.selectedContext = null;
+        }
+
+        async function submitScoring(type, contextName, subContext, dinilaiName) {
+            const val = document.getElementById('inp-nilai-div').value;
+            const fb = document.getElementById('inp-feedback-div').value;
+            
+            const payload = { type: type, contextName: contextName, subContextName: subContext, dinilai: dinilaiName, nilai: val, feedback: fb, penilai: appState.user.namaLengkap };
+            const res = await apiPost('saveScoring', payload);
+            
+            if(res.status === 'success') {
+                showToast('Nilai berhasil disimpan.', 'success');
+                closeDetailModal();
+                loadTeacherRoles();
+            } else {
+                showToast('Gagal menyimpan nilai.', 'error');
             }
         }
 
@@ -1010,148 +1260,71 @@
         // ==========================================
         function setScanMode(mode) {
             appState.scanMode = mode;
-            const btnIn = document.getElementById('btn-scan-in');
-            const btnOut = document.getElementById('btn-scan-out');
-            const title = document.getElementById('scan-mode-title');
-            
+            const btnIn = document.getElementById('btn-scan-in'), btnOut = document.getElementById('btn-scan-out'), title = document.getElementById('scan-mode-title');
             if(mode === 'in') {
-                btnIn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl bg-slate-800 text-white shadow-md transition-all";
-                btnOut.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all";
-                title.innerText = "Check In Mode";
+                btnIn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl bg-slate-800 text-white shadow-md transition-all"; btnOut.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all"; title.innerText = "Check In Mode";
             } else {
-                btnOut.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl bg-slate-800 text-white shadow-md transition-all";
-                btnIn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all";
-                title.innerText = "Check Out Mode";
+                btnOut.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl bg-slate-800 text-white shadow-md transition-all"; btnIn.className = "flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all"; title.innerText = "Check Out Mode";
             }
         }
 
         function toggleCamera() {
-            if (isScannerRunning) {
-                stopScanner().then(() => updateBtnUI(false));
-            } else {
-                startScanner();
-                updateBtnUI(true);
-            }
+            if (isScannerRunning) { stopScanner().then(() => updateBtnUI(false)); } 
+            else { startScanner(); updateBtnUI(true); }
         }
 
         function updateBtnUI(isRunning) {
             const btn = document.getElementById('btn-toggle-camera');
             if(isRunning) {
-                btn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i> Matikan Kamera`;
-                btn.className = "relative z-10 w-full sm:w-auto px-6 py-3.5 bg-red-500 hover:bg-red-600 text-white text-sm font-bold rounded-xl transition-all shadow-[0_4px_14px_rgba(239,68,68,0.3)]";
+                btn.innerHTML = `<i class="fa-solid fa-stop mr-2"></i> Matikan Kamera`; btn.className = "relative z-10 w-full sm:w-auto px-6 py-3.5 bg-red-500 hover:bg-red-600 text-white text-sm font-bold rounded-xl transition-all shadow-[0_4px_14px_rgba(239,68,68,0.3)]";
             } else {
-                btn.innerHTML = `<i class="fa-solid fa-camera mr-2"></i> Nyalakan Kamera`;
-                btn.className = "relative z-10 w-full sm:w-auto px-6 py-3.5 bg-awBlue hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition-all shadow-[0_4px_14px_rgba(0,32,178,0.3)]";
+                btn.innerHTML = `<i class="fa-solid fa-camera mr-2"></i> Nyalakan Kamera`; btn.className = "relative z-10 w-full sm:w-auto px-6 py-3.5 bg-awBlue hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition-all shadow-[0_4px_14px_rgba(0,32,178,0.3)]";
             }
         }
 
         async function flipCamera() {
-            if (isScannerRunning) {
-                await stopScanner();
-                currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
-                startScanner();
-            } else {
-                currentFacingMode = currentFacingMode === "environment" ? "user" : "environment";
-                showToast("Mode kamera diubah. Nyalakan kamera.", "info");
-            }
+            if (isScannerRunning) { await stopScanner(); currentFacingMode = currentFacingMode === "environment" ? "user" : "environment"; startScanner(); } 
+            else { currentFacingMode = currentFacingMode === "environment" ? "user" : "environment"; showToast("Mode kamera diubah. Nyalakan kamera.", "info"); }
         }
 
         function startScanner() {
-            if(!html5QrCode) {
-                html5QrCode = new Html5Qrcode("reader");
-            }
-            
-            // Kalkulasi ukuran kotak scan (qrbox) dinamis 70% dari layar
+            if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
             let boxSize = Math.min(window.innerWidth * 0.7, 300);
-            const config = { fps: 10, qrbox: { width: boxSize, height: boxSize } };
-            
-            html5QrCode.start({ facingMode: currentFacingMode }, config, onScanSuccess)
-            .then(() => {
-                isScannerRunning = true;
-                document.getElementById('scan-laser-decor').classList.remove('hidden');
-            })
-            .catch(err => {
-                showToast("Gagal mengakses kamera browser.", "error");
-                updateBtnUI(false);
-            });
+            html5QrCode.start({ facingMode: currentFacingMode }, { fps: 10, qrbox: { width: boxSize, height: boxSize } }, onScanSuccess)
+            .then(() => { isScannerRunning = true; document.getElementById('scan-laser-decor').classList.remove('hidden'); })
+            .catch(err => { showToast("Gagal mengakses kamera browser.", "error"); updateBtnUI(false); });
         }
 
         function stopScanner() {
             return new Promise((resolve) => {
                 if(html5QrCode && isScannerRunning) {
-                    html5QrCode.stop().then(() => {
-                        isScannerRunning = false;
-                        document.getElementById('scan-laser-decor').classList.add('hidden');
-                        resolve();
-                    }).catch(err => {
-                        console.error(err);
-                        resolve();
-                    });
-                } else {
-                    resolve();
-                }
+                    html5QrCode.stop().then(() => { isScannerRunning = false; document.getElementById('scan-laser-decor').classList.add('hidden'); resolve(); }).catch(err => { resolve(); });
+                } else { resolve(); }
             });
         }
 
         async function onScanSuccess(decodedText, decodedResult) {
-            await stopScanner();
-            updateBtnUI(false);
-            
+            await stopScanner(); updateBtnUI(false);
             document.getElementById('scan-loading-overlay').classList.remove('hidden');
-            
-            const qrCode = decodedText.trim();
-            const payload = {
-                username: appState.user.username,
-                qrCode: qrCode,
-                type: appState.scanMode.toUpperCase()
-            };
-
-            const res = await apiPost('smartScanCICO', payload);
-            
+            const res = await apiPost('smartScanCICO', { username: appState.user.username, qrCode: decodedText.trim(), type: appState.scanMode.toUpperCase() });
             document.getElementById('scan-loading-overlay').classList.add('hidden');
-            showScanModal(res);
-            
-            loadDashboardData(); 
+            showScanModal(res); loadDashboardData(); 
         }
 
         function showScanModal(res) {
-            const modal = document.getElementById('scan-modal');
-            const content = document.getElementById('scan-modal-content');
-            
+            const modal = document.getElementById('scan-modal'), content = document.getElementById('scan-modal-content');
             if(res.status === 'success') {
-                const icon = appState.scanMode === 'in' ? 'fa-check' : 'fa-person-walking-arrow-right';
-                content.innerHTML = `
-                    <div class="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative">
-                        <i class="fa-solid ${icon} relative z-10"></i>
-                        <div class="absolute inset-0 border-4 border-emerald-500 rounded-full animate-ping opacity-20"></div>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-2xl mb-2">Akses Diterima</h3>
-                    <p class="text-slate-500 font-medium text-sm px-2">${res.message}</p>
-                    <div class="mt-4 inline-block bg-emerald-50 border border-emerald-100 px-4 py-1.5 rounded-lg text-emerald-700 font-bold text-lg">${res.waktu}</div>
-                `;
+                content.innerHTML = `<div class="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative"><i class="fa-solid ${appState.scanMode === 'in' ? 'fa-check' : 'fa-person-walking-arrow-right'} relative z-10"></i><div class="absolute inset-0 border-4 border-emerald-500 rounded-full animate-ping opacity-20"></div></div><h3 class="font-extrabold text-slate-800 text-2xl mb-2">Akses Diterima</h3><p class="text-slate-500 font-medium text-sm px-2">${res.message}</p><div class="mt-4 inline-block bg-emerald-50 border border-emerald-100 px-4 py-1.5 rounded-lg text-emerald-700 font-bold text-lg">${res.waktu}</div>`;
             } else {
-                content.innerHTML = `
-                    <div class="w-20 h-20 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative">
-                        <i class="fa-solid fa-xmark relative z-10"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-2xl mb-2">Akses Ditolak</h3>
-                    <p class="text-slate-500 font-medium text-sm px-2">${res.message}</p>
-                `;
+                content.innerHTML = `<div class="w-20 h-20 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative"><i class="fa-solid fa-xmark relative z-10"></i></div><h3 class="font-extrabold text-slate-800 text-2xl mb-2">Akses Ditolak</h3><p class="text-slate-500 font-medium text-sm px-2">${res.message}</p>`;
             }
-            
             modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('div').classList.remove('scale-90');
-                modal.querySelector('div').classList.add('scale-100');
-            }, 20);
+            setTimeout(() => { modal.classList.remove('opacity-0'); modal.querySelector('div').classList.remove('scale-90'); modal.querySelector('div').classList.add('scale-100'); }, 20);
         }
 
         function closeScanModal() {
             const modal = document.getElementById('scan-modal');
-            modal.classList.add('opacity-0');
-            modal.querySelector('div').classList.add('scale-90');
-            modal.querySelector('div').classList.remove('scale-100');
+            modal.classList.add('opacity-0'); modal.querySelector('div').classList.add('scale-90'); modal.querySelector('div').classList.remove('scale-100');
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
     </script>
