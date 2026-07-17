@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Teacher Portal - Al-Wildan Islamic School 15 Bekasi</title>
-
+    
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
     
@@ -111,18 +112,26 @@
 
     <div id="toast-container"></div>
     
-    <!-- Central Modal for CICO Result -->
+    <!-- Modal: Scanner Result -->
     <div id="scan-modal" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-6 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-8 w-full max-w-sm shadow-2xl transform scale-90 transition-transform duration-300 flex flex-col items-center text-center relative overflow-hidden">
-             <div id="scan-modal-content" class="w-full">
-                 <!-- Injected via JS -->
-             </div>
-             <button onclick="closeScanModal()" class="w-full mt-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all shadow-sm">Tutup & Lanjut</button>
+             <div id="scan-modal-content" class="w-full"></div>
+             <button onclick="closeModal('scan-modal')" class="w-full mt-6 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all shadow-sm">Tutup & Lanjut</button>
+        </div>
+    </div>
+
+    <!-- Modal: Global Detail & Scoring -->
+    <div id="detail-modal" class="hidden fixed inset-0 z-[999] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4 sm:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] shadow-2xl transform scale-90 transition-transform duration-300 flex flex-col relative overflow-hidden">
+            <div class="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50">
+                <h3 id="modal-title" class="font-extrabold text-slate-800 text-xl">Detail Progress</h3>
+                <button onclick="closeModal('detail-modal')" class="w-8 h-8 flex items-center justify-center bg-white rounded-full text-slate-400 hover:text-red-500 shadow-sm"><i class="fa-solid fa-times"></i></button>
+            </div>
+            <div id="modal-content" class="p-6 overflow-y-auto flex-1"></div>
         </div>
     </div>
 
     <div id="view-login" class="w-full h-full flex flex-col md:flex-row bg-white absolute z-50 inset-0 transition-opacity duration-700">
-        <!-- Left Branding -->
         <div class="hidden md:flex w-1/2 bg-gradient-to-br from-awBlue to-indigo-900 flex-col justify-center items-center p-12 relative overflow-hidden">
             <div class="absolute inset-0 bg-hero-pattern opacity-30"></div>
             <div class="absolute -top-24 -left-24 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl"></div>
@@ -131,20 +140,17 @@
             <h1 class="text-4xl font-extrabold text-white mb-3 z-10 text-center tracking-tight">Teacher Portal</h1>
             <p class="text-indigo-200 text-lg z-10 text-center font-medium">Al-Wildan Islamic School 15 Bekasi</p>
         </div>
-
-        <!-- Right Form -->
+        
         <div class="w-full md:w-1/2 flex justify-center items-center p-6 sm:p-8 bg-slate-50 relative">
             <div class="w-full max-w-md bg-white rounded-3xl shadow-soft p-8 sm:p-10 border border-slate-100 relative z-10">
                 <div class="md:hidden flex flex-col items-center mb-8">
                      <img src="https://thumbs2.imgbox.com/f7/0a/60vxGqFX_t.png" alt="Logo" class="w-20 h-20 mb-3 drop-shadow-lg" onerror="this.src='https://placehold.co/80x80/0020B2/FFFFFF?text=AW'">
                      <h2 class="text-2xl font-bold text-awBlue">Teacher Portal</h2>
                 </div>
-                
                 <div class="mb-8 hidden md:block">
                     <h2 class="text-3xl font-bold text-slate-800 mb-2">Welcome back</h2>
                     <p class="text-slate-500 text-sm">Masuk menggunakan kredensial Anda.</p>
                 </div>
-
                 <form id="login-form" onsubmit="handleLogin(event)">
                     <div class="mb-5">
                         <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">Username</label>
@@ -169,7 +175,7 @@
     </div>
 
     <div id="view-app" class="hidden-view w-full h-full flex relative z-0">
-        
+        <!-- Sidebar -->
         <aside id="sidebar" class="w-64 bg-white border-r border-slate-100 flex-shrink-0 flex flex-col transition-transform duration-300 z-40 fixed md:relative h-full -translate-x-full md:translate-x-0 shadow-2xl md:shadow-none">
             <div class="h-20 flex items-center px-6 gap-3 border-b border-slate-50">
                 <img src="https://thumbs2.imgbox.com/f7/0a/60vxGqFX_t.png" alt="Logo" class="w-10 h-10 rounded-full bg-slate-50 p-1" onerror="this.src='https://placehold.co/40x40/0020B2/FFFFFF?text=AW'">
@@ -201,7 +207,6 @@
                     <div class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 group-hover:text-awBlue group-hover:bg-white group-hover:shadow-sm transition-all"><i class="fa-solid fa-pen-to-square"></i></div> Report Tools
                 </a>
             </nav>
-
             <div class="p-4 border-t border-slate-100 bg-slate-50/50">
                 <button onclick="handleLogout()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-semibold text-sm">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
@@ -210,7 +215,6 @@
         </aside>
 
         <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 hidden md:hidden transition-opacity" onclick="toggleSidebar()"></div>
-
         <div class="flex-1 flex flex-col h-full overflow-hidden relative">
             <header class="h-20 glass-panel flex items-center justify-between px-4 sm:px-6 md:px-10 flex-shrink-0 z-20 sticky top-0">
                 <div class="flex items-center gap-3 sm:gap-4">
@@ -245,7 +249,7 @@
                                 </div>
                                 <div class="bg-white/10 backdrop-blur-md px-4 sm:px-5 py-3 rounded-2xl border border-white/20 shadow-sm flex-1 sm:flex-none min-w-[140px]">
                                     <p class="text-[10px] text-blue-200 uppercase tracking-widest font-bold mb-1"><i class="fa-solid fa-shield-cat mr-1"></i>Sistem Terpadu</p>
-                                    <p class="font-bold text-sm sm:text-lg">Portal V3.1</p>
+                                    <p class="font-bold text-sm sm:text-lg">Portal V3.2</p>
                                 </div>
                             </div>
                         </div>
@@ -263,40 +267,41 @@
 
                     <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2"><i class="fa-solid fa-calendar-day"></i> Pantauan Hari Ini</h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                    <!-- GRID STRETCH FIX APPLIED HERE (items-start + h-fit) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 items-start">
                         <!-- CARD 1: Jadwal & JP -->
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-full min-h-[16rem]">
+                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-fit">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-blue-50 text-awBlue flex items-center justify-center text-xl shadow-sm border border-blue-100"><i class="fa-solid fa-chalkboard-user"></i></div>
                                 <span class="bg-slate-100 text-slate-500 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1"><i class="fa-regular fa-clock"></i> <span id="ui-total-jp">0 JP</span></span>
                             </div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Jadwal Mengajar</h4>
                             <p class="text-xs font-medium text-slate-400 mb-4">Daftar kelas Anda hari ini</p>
-                            <div id="ui-jadwal-container" class="flex-1 pr-2 space-y-2">
+                            <div id="ui-jadwal-container" class="pr-2 space-y-2">
                                 <p class="text-sm text-slate-500 font-medium italic"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Memuat jadwal...</p>
                             </div>
                         </div>
 
                         <!-- CARD 2: Info Infal -->
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-full min-h-[16rem]">
+                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-fit">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-orange-50 text-awOrange flex items-center justify-center text-xl shadow-sm border border-orange-100"><i class="fa-solid fa-user-nurse"></i></div>
                             </div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Tugas Infal</h4>
                             <p class="text-xs font-medium text-slate-400 mb-4">Amanah guru pengganti hari ini</p>
-                            <div id="ui-infal-container" class="flex-1">
+                            <div id="ui-infal-container">
                                 <p class="text-sm text-slate-500 font-medium italic"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Memeriksa data...</p>
                             </div>
                         </div>
 
                         <!-- CARD 3: Persentase Kehadiran -->
-                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-full min-h-[16rem]">
+                        <div class="bg-white p-5 sm:p-6 rounded-3xl shadow-soft border border-slate-100 flex flex-col relative overflow-hidden h-fit">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="w-12 h-12 rounded-xl bg-green-50 text-emerald-600 flex items-center justify-center text-xl shadow-sm border border-green-100"><i class="fa-solid fa-fingerprint"></i></div>
                             </div>
                             <h4 class="font-bold text-slate-800 text-lg mb-1">Performa Kehadiran</h4>
-                            <p class="text-xs font-medium text-slate-400 mb-2">Bulan berjalan (berdasarkan fingerprint)</p>
-                            <div id="ui-kehadiran-container" class="flex-1 flex flex-col justify-end">
+                            <p class="text-xs font-medium text-slate-400 mb-4">Bulan berjalan (berdasarkan fingerprint)</p>
+                            <div id="ui-kehadiran-container" class="flex flex-col justify-end mt-auto">
                                  <p class="text-sm text-slate-500 font-medium italic"><i class="fa-solid fa-circle-notch fa-spin mr-1"></i> Menghitung...</p>
                             </div>
                         </div>
@@ -305,12 +310,16 @@
 
                 <!-- TAB EVENT -->
                 <div id="tab-event" class="tab-content hidden-view fade-in">
-                    <div id="event-dynamic-container"><div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div></div>
+                    <div id="event-dynamic-container" class="space-y-6">
+                        <div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div>
+                    </div>
                 </div>
                 
                 <!-- TAB COMMISSION -->
                 <div id="tab-commission" class="tab-content hidden-view fade-in">
-                    <div id="comm-dynamic-container"><div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div></div>
+                    <div id="comm-dynamic-container" class="space-y-6">
+                        <div class="text-center p-12"><i class="fa-solid fa-circle-notch fa-spin text-3xl text-awBlue"></i></div>
+                    </div>
                 </div>
 
                 <div id="tab-eis" class="tab-content hidden-view fade-in">
@@ -341,7 +350,6 @@
 
                 <div id="tab-scanner" class="tab-content hidden-view fade-in">
                     <div class="max-w-md mx-auto">
-                        <!-- Mode Toggle -->
                         <div class="bg-white p-1.5 rounded-2xl flex mb-6 shadow-soft border border-slate-100">
                             <button id="btn-scan-in" onclick="setScanMode('in')" class="flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl bg-slate-800 text-white shadow-md transition-all">CHECK IN</button>
                             <button id="btn-scan-out" onclick="setScanMode('out')" class="flex-1 py-3 text-xs sm:text-sm font-bold rounded-xl text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-all">CHECK OUT</button>
@@ -355,27 +363,17 @@
                                 <h3 id="scan-mode-title" class="text-white font-bold text-xl tracking-tight">Check In Mode</h3>
                             </div>
                             
-                            <!-- Scanner Target Box -->
                             <div class="w-full scanner-container scanner-corners mb-4 flex items-center justify-center relative bg-black border border-slate-700">
-                                
-                                <!-- Switch Camera Button -->
                                 <button onclick="flipCamera()" class="absolute top-3 right-3 z-20 bg-slate-800/80 hover:bg-slate-700 p-2.5 rounded-full text-white backdrop-blur-md shadow-lg transition-colors" title="Putar Kamera">
                                     <i class="fa-solid fa-camera-rotate text-lg"></i>
                                 </button>
-
-                                <!-- Target for html5-qrcode -->
                                 <div id="reader" class="w-full h-full absolute inset-0 z-0"></div>
-                                
-                                <!-- Decorative Laser -->
                                 <div id="scan-laser-decor" class="scan-laser hidden"></div>
-
-                                <!-- Loading Overlay inside Scanner (Anti Blank Screen) -->
                                 <div id="scan-loading-overlay" class="hidden absolute inset-0 bg-slate-900/80 backdrop-blur-md z-30 flex flex-col items-center justify-center">
                                     <i class="fa-solid fa-expand fa-beat text-4xl text-emerald-400 mb-3"></i>
                                     <p class="text-white font-bold tracking-widest text-sm animate-pulse">MEMVALIDASI...</p>
                                 </div>
                             </div>
-
                             <p class="text-slate-400 text-[11px] sm:text-xs text-center relative z-10 px-2 sm:px-4 mb-4 leading-relaxed">Arahkan kamera ke QR Code kelas. Sistem akan otomatis mendeteksi dan memvalidasi jadwal mengajar Anda.</p>
                             
                             <button id="btn-toggle-camera" onclick="toggleCamera()" class="relative z-10 w-full sm:w-auto px-6 py-3.5 bg-awBlue hover:bg-blue-800 text-white text-sm font-bold rounded-xl transition-all shadow-[0_4px_14px_rgba(0,32,178,0.3)]">
@@ -384,7 +382,6 @@
                         </div>
                     </div>
                 </div>
-
             </main>
         </div>
     </div>
@@ -393,9 +390,11 @@
         // MUST MATCH YOUR APPS SCRIPT URL
         const API_URL = 'https://script.google.com/macros/s/AKfycbwq-Iu2WGVwAfKxLiXmFIjICNMd-BAUomznKu99yiVWoA8z28OuFgukvaMrNVR8auxqHg/exec';
 
+        // State now explicitly expects arrays for events and commissions (Multi-Role Support V3.2)
         let appState = {
             user: null, 
-            roles: { event: null, commission: null },
+            teacherList: [],
+            roles: { events: [], commissions: [] }, 
             scanMode: 'in'
         };
         
@@ -439,7 +438,6 @@
             btn.disabled = true;
 
             const res = await apiPost('login', { username: userInp, password: passInp });
-
             if (res.status === 'success' && res.data.role === 'Teacher') {
                 appState.user = { ...res.data, username: userInp };
                 
@@ -447,6 +445,10 @@
                 document.getElementById('ui-user-avatar').innerText = appState.user.namaLengkap.substring(0, 2).toUpperCase();
                 document.getElementById('ui-welcome-msg').innerText = `Ahlan Wa Sahlan, ${appState.user.namaLengkap.split(' ')[0]}!`;
                 document.getElementById('ui-wali-kelas').innerText = appState.user.waliKelas || '-';
+
+                // Fetch Teacher List for Dropdowns
+                const tRes = await apiGet('getTeacherList');
+                if(tRes.status === 'success') appState.teacherList = tRes.data.teachers || [];
 
                 document.getElementById('view-login').classList.add('opacity-0');
                 setTimeout(() => {
@@ -466,98 +468,122 @@
         }
 
         async function loadDashboardData() {
-            const res = await apiGet('getHomeData', { nama: appState.user.namaLengkap });
-            
-            if(res.status === 'success') {
-                const data = res.data;
+            try {
+                const res = await apiGet('getHomeData', { nama: appState.user.namaLengkap });
                 
-                // 1. Ticker Event
-                const tickerWrap = document.getElementById('ui-ticker-content');
-                if(data.tickerEvents && data.tickerEvents.length > 0) {
-                    let html = '';
-                    const colors = ['awOrange', 'awBlue', 'awGreen'];
-                    data.tickerEvents.forEach((ev, i) => {
-                        let c = colors[i % colors.length];
-                        html += `<span class="flex items-center gap-2 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100"><i class="fa-solid fa-thumbtack text-${c}"></i> <strong>${ev.namaEvent}:</strong> ${ev.tanggalRaw}</span>`;
-                    });
-                    tickerWrap.innerHTML = html + html; 
-                } else {
-                    tickerWrap.innerHTML = `<span>Belum ada event terdekat.</span>`;
-                }
-
-                // 2. Jadwal & Total JP Hari Ini
-                const jadwalContainer = document.getElementById('ui-jadwal-container');
-                const jpCounter = document.getElementById('ui-total-jp');
-                
-                if(data.jadwalHariIni && data.jadwalHariIni.length > 0) {
-                    jpCounter.innerText = `${data.jadwalHariIni.length} JP`;
-                    let jadwalHtml = '';
-                    data.jadwalHariIni.forEach(j => {
-                        jadwalHtml += `
-                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
-                                <div>
-                                    <p class="font-bold text-sm text-slate-800 truncate max-w-[120px]">${j.kelas}</p>
-                                    <p class="text-[10px] text-slate-500 font-medium uppercase truncate">${j.mapel}</p>
-                                </div>
-                                <span class="bg-awBlueLight text-awBlue font-bold text-xs px-2 py-1 rounded-lg shrink-0">${j.sesi}</span>
-                            </div>`;
-                    });
-                    jadwalContainer.innerHTML = jadwalHtml;
-                } else {
-                    jpCounter.innerText = `0 JP`;
-                    jadwalContainer.innerHTML = `<div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-center h-full flex flex-col items-center justify-center min-h-[90px]"><i class="fa-regular fa-calendar-xmark text-2xl text-slate-300 mb-2 block"></i><p class="text-xs text-slate-500 font-medium">Tidak ada jadwal reguler hari ini.</p></div>`;
-                }
-
-                // 3. Info Infal
-                const infalContainer = document.getElementById('ui-infal-container');
-                if(data.infalHariIni && data.infalHariIni.length > 0) {
-                    let infalHtml = '';
-                    data.infalHariIni.forEach(inf => {
-                        infalHtml += `
-                            <div class="bg-orange-50 border border-orange-200 p-3.5 rounded-xl relative overflow-hidden mb-2">
-                                <div class="absolute right-0 top-0 w-16 h-16 bg-orange-500 opacity-5 rounded-full blur-xl"></div>
-                                <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider mb-1.5 inline-block">TUGAS INFAL</span>
-                                <p class="text-[11px] sm:text-xs text-slate-700 font-medium leading-snug">Gantikan <strong>${inf.guruKeluar}</strong> di <strong class="text-awOrange">${inf.kelas}</strong> (<span class="text-awOrange">${inf.sesi}</span>)</p>
-                            </div>`;
-                    });
-                    infalContainer.innerHTML = infalHtml;
-                } else {
-                    infalContainer.innerHTML = `<div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-center h-full flex flex-col items-center justify-center min-h-[90px]"><i class="fa-solid fa-mug-hot text-xl text-slate-300 mb-1"></i><p class="text-xs text-slate-500 font-medium">Aman, tidak ada tugas infal.</p></div>`;
-                }
-
-                // 4. Persentase Kehadiran
-                const hadirContainer = document.getElementById('ui-kehadiran-container');
-                if(data.kehadiranBulanIni) {
-                    let total = data.kehadiranBulanIni.hadir;
-                    let telat = data.kehadiranBulanIni.telat;
-                    let tepatWaktu = total - telat;
+                if(res.status === 'success') {
+                    const data = res.data;
                     
-                    hadirContainer.innerHTML = `
-                        <div class="flex items-end gap-2 mb-3">
-                            <span class="text-3xl font-extrabold text-slate-800 leading-none">${total}</span>
-                            <span class="text-[10px] sm:text-xs font-bold text-slate-400 mb-1 uppercase tracking-wider">HARI HADIR</span>
-                        </div>
-                        <div class="space-y-2.5">
-                            <div>
-                                <div class="flex justify-between text-[10px] sm:text-xs font-bold mb-1"><span class="text-emerald-600">Tepat Waktu</span><span class="text-slate-600">${tepatWaktu}x</span></div>
-                                <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full" style="width: ${total > 0 ? (tepatWaktu/total)*100 : 0}%"></div></div>
+                    // 1. Ticker Event
+                    const tickerWrap = document.getElementById('ui-ticker-content');
+                    if(data.tickerEvents && data.tickerEvents.length > 0) {
+                        let html = '';
+                        const colors = ['awOrange', 'awBlue', 'awGreen'];
+                        data.tickerEvents.forEach((ev, i) => {
+                            let c = colors[i % colors.length];
+                            html += `<span class="flex items-center gap-2 bg-slate-50 px-3 py-1 rounded-lg border border-slate-100"><i class="fa-solid fa-thumbtack text-${c}"></i> <strong>${ev.namaEvent}:</strong> ${ev.tanggalRaw}</span>`;
+                        });
+                        tickerWrap.innerHTML = html + html; 
+                    } else {
+                        tickerWrap.innerHTML = `<span>Belum ada event terdekat.</span>`;
+                    }
+
+                    // 2. Jadwal & Total JP Hari Ini
+                    const jadwalContainer = document.getElementById('ui-jadwal-container');
+                    const jpCounter = document.getElementById('ui-total-jp');
+                    
+                    if(data.jadwalHariIni && data.jadwalHariIni.length > 0) {
+                        jpCounter.innerText = `${data.jadwalHariIni.length} JP`;
+                        let jadwalHtml = '';
+                        data.jadwalHariIni.forEach(j => {
+                            jadwalHtml += `
+                                <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100">
+                                    <div>
+                                        <p class="font-bold text-sm text-slate-800 truncate max-w-[120px]">${j.kelas}</p>
+                                        <p class="text-[10px] text-slate-500 font-medium uppercase truncate">${j.mapel}</p>
+                                    </div>
+                                    <span class="bg-awBlueLight text-awBlue font-bold text-xs px-2 py-1 rounded-lg shrink-0">${j.sesi}</span>
+                                </div>`;
+                        });
+                        jadwalContainer.innerHTML = jadwalHtml;
+                    } else {
+                        jpCounter.innerText = `0 JP`;
+                        jadwalContainer.innerHTML = `<div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-center flex flex-col items-center justify-center min-h-[90px]"><i class="fa-regular fa-calendar-xmark text-2xl text-slate-300 mb-2 block"></i><p class="text-xs text-slate-500 font-medium">Tidak ada jadwal reguler hari ini.</p></div>`;
+                    }
+
+                    // 3. Info Infal
+                    const infalContainer = document.getElementById('ui-infal-container');
+                    if(data.infalHariIni && data.infalHariIni.length > 0) {
+                        let infalHtml = '';
+                        data.infalHariIni.forEach(inf => {
+                            infalHtml += `
+                                <div class="bg-orange-50 border border-orange-200 p-3.5 rounded-xl relative overflow-hidden mb-2">
+                                    <div class="absolute right-0 top-0 w-16 h-16 bg-orange-500 opacity-5 rounded-full blur-xl"></div>
+                                    <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider mb-1.5 inline-block">TUGAS INFAL</span>
+                                    <p class="text-[11px] sm:text-xs text-slate-700 font-medium leading-snug">Gantikan <strong>${inf.guruKeluar}</strong> di <strong class="text-awOrange">${inf.kelas}</strong> (<span class="text-awOrange">${inf.sesi}</span>)</p>
+                                </div>`;
+                        });
+                        infalContainer.innerHTML = infalHtml;
+                    } else {
+                        infalContainer.innerHTML = `<div class="bg-slate-50 border border-slate-100 p-4 rounded-xl text-center flex flex-col items-center justify-center min-h-[90px]"><i class="fa-solid fa-mug-hot text-xl text-slate-300 mb-1"></i><p class="text-xs text-slate-500 font-medium">Aman, tidak ada tugas infal.</p></div>`;
+                    }
+
+                    // 4. Persentase Kehadiran
+                    const hadirContainer = document.getElementById('ui-kehadiran-container');
+                    if(data.kehadiranBulanIni) {
+                        let total = data.kehadiranBulanIni.hadir;
+                        let telat = data.kehadiranBulanIni.telat;
+                        let tepatWaktu = total - telat;
+                        let pct = total > 0 ? Math.round((tepatWaktu / total) * 100) : 0;
+                        
+                        hadirContainer.innerHTML = `
+                            <div class="flex items-end gap-2 mb-1">
+                                <span class="text-4xl sm:text-5xl font-extrabold text-emerald-500 leading-none">${pct}%</span>
+                                <span class="text-[10px] sm:text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider"><i class="fa-solid fa-arrow-trend-up"></i> HADIR</span>
                             </div>
-                            <div>
-                                <div class="flex justify-between text-[10px] sm:text-xs font-bold mb-1"><span class="text-rose-500">Terlambat</span><span class="text-slate-600">${telat}x</span></div>
-                                <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-rose-500 h-1.5 rounded-full" style="width: ${total > 0 ? (telat/total)*100 : 0}%"></div></div>
+                            <p class="text-xs font-bold text-slate-600 mb-4">${total} HARI TERCATAT</p>
+                            
+                            <div class="space-y-2.5">
+                                <div>
+                                    <div class="flex justify-between text-[10px] sm:text-xs font-bold mb-1"><span class="text-emerald-600">Tepat Waktu</span><span class="text-slate-600">${tepatWaktu}x</span></div>
+                                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-emerald-500 h-1.5 rounded-full transition-all" style="width: ${pct}%"></div></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] sm:text-xs font-bold mb-1"><span class="text-rose-500">Terlambat</span><span class="text-slate-600">${telat}x</span></div>
+                                    <div class="w-full bg-slate-100 rounded-full h-1.5"><div class="bg-rose-500 h-1.5 rounded-full transition-all" style="width: ${total > 0 ? (telat/total)*100 : 0}%"></div></div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    }
                 }
+            } catch(e) {
+                console.error("Dashboard Error:", e);
+                document.getElementById('ui-jadwal-container').innerHTML = `<p class="text-sm text-rose-500 font-medium">Gagal memuat data.</p>`;
+                document.getElementById('ui-infal-container').innerHTML = `<p class="text-sm text-rose-500 font-medium">Gagal memuat data.</p>`;
+                document.getElementById('ui-kehadiran-container').innerHTML = `<p class="text-sm text-rose-500 font-medium">Gagal memuat data.</p>`;
             }
         }
 
         async function loadTeacherRoles() {
-            const res = await apiGet('getTeacherRoles', { nama: appState.user.namaLengkap });
-            if (res.status === 'success') {
-                appState.roles = res.data;
+            try {
+                const res = await apiGet('getTeacherRoles', { nama: appState.user.namaLengkap });
+                if (res.status === 'success' && res.data) {
+                    // Safe Fallback in case Backend is old or missing arrays
+                    appState.roles = {
+                        events: Array.isArray(res.data.events) ? res.data.events : [],
+                        commissions: Array.isArray(res.data.commissions) ? res.data.commissions : []
+                    };
+                } else {
+                    appState.roles = { events: [], commissions: [] };
+                }
                 renderEventView();
                 renderCommissionView();
+            } catch(e) {
+                console.error("Multi-Role Error:", e);
+                appState.roles = { events: [], commissions: [] };
+                renderEventView();
+                renderCommissionView();
+                showToast("Gagal menarik data jabatan. Koneksi bermasalah.", "error");
             }
         }
 
@@ -593,7 +619,7 @@
                 activeIconBox.classList.add('bg-white', 'text-awBlue', 'shadow-sm');
             }
             
-            const titles = { 'dashboard': 'Dashboard Overview', 'event': 'Event', 'commission': 'Commission', 'eis': 'EIS System', 'scanner': 'Web Scanner', 'report': 'Report Tools' };
+            const titles = { 'dashboard': 'Dashboard Overview', 'event': 'Event & Kepanitiaan', 'commission': 'Manajemen Komisi', 'eis': 'EIS System', 'scanner': 'Web Scanner', 'report': 'Report Tools' };
             document.getElementById('topbar-title').innerText = titles[tabId] || 'Portal Guru';
 
             if (tabId !== 'scanner' && isScannerRunning) stopScanner();
@@ -621,393 +647,501 @@
             setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 400); }, 3500);
         }
 
-        // ==========================================
-        // RENDER & LOGIC: EVENT (Sistem Kartu Tugas)
-        // ==========================================
+        function getTeacherDropdownOptions() {
+            let opts = `<option value="">Pilih Guru...</option>`;
+            appState.teacherList.forEach(t => { opts += `<option value="${t}">${t}</option>`; });
+            return opts;
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-90');
+            modal.querySelector('div').classList.remove('scale-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-90');
+                modal.querySelector('div').classList.add('scale-100');
+            }, 20);
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
         function renderEventView() {
             const container = document.getElementById('event-dynamic-container');
-            const r = appState.roles.event || {};
+            const events = appState.roles.events;
             
-            if (r.role === 'ketua') {
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6 relative overflow-hidden">
-                        <p class="text-xs font-bold text-awBlue uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-crown text-amber-500"></i> Ketua Event</p>
-                        <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                        <p class="text-sm text-slate-500 mt-2 mb-6 max-w-lg">Susun struktur divisi dan anggota kepanitiaan.</p>
-                        <button onclick="document.getElementById('event-form-area').classList.toggle('hidden')" class="px-6 py-3 bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Rancang Panitia</button>
-                        <div id="event-form-area" class="hidden mt-6 pt-6 border-t border-slate-100">
-                             <form onsubmit="submitCommittee(event, '${r.title}')">
-                                <div id="committee-rows-container" class="space-y-3 mb-4">${getCommitteeRowHTML()}</div>
-                                <button type="button" onclick="document.getElementById('committee-rows-container').insertAdjacentHTML('beforeend', getCommitteeRowHTML())" class="text-sm font-bold text-awBlue bg-blue-50 px-4 py-2 rounded-lg mb-6">+ Tambah Anggota</button>
-                                <button type="submit" id="btn-submit-committee" class="w-full sm:w-auto px-8 py-3 bg-awDark text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2"><span>Simpan</span></button>
-                             </form>
-                        </div>
-                    </div>`;
-            } else if (r.role === 'member') {
-                let tasks = r.tasks || [];
-                
-                // Kalau Belum Punya Action Plan Sama Sekali
-                if (tasks.length === 0) {
-                    container.innerHTML = `
-                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6 relative overflow-hidden">
-                            <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-users text-emerald-500"></i> Divisi ${r.divisi}</p>
-                            <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                            <p class="text-sm text-slate-500 mt-2 mb-6">Anda belum membuat rencana Action Plan untuk event ini.</p>
-                            <button onclick="document.getElementById('event-form-area').classList.toggle('hidden')" class="px-6 py-3 bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Buat Action Plan Baru</button>
-                            <div id="event-form-area" class="hidden mt-6 pt-6 border-t border-slate-100">
-                                 <form onsubmit="submitNewActionPlan(event, '${r.title}', '${r.divisi}')">
-                                    <div id="actionplan-rows-container" class="space-y-3 mb-4">${getActionPlanRowHTML()}</div>
-                                    <button type="button" onclick="document.getElementById('actionplan-rows-container').insertAdjacentHTML('beforeend', getActionPlanRowHTML())" class="text-sm font-bold text-awBlue bg-blue-50 px-4 py-2 rounded-lg mb-6">+ Tambah Tugas</button>
-                                    <button type="submit" id="btn-submit-actionplan" class="w-full sm:w-auto px-8 py-3 bg-awGreen text-slate-900 font-bold rounded-xl shadow-md flex items-center justify-center gap-2"><span>Kirim Tugas</span></button>
-                                 </form>
-                            </div>
-                        </div>`;
-                } else {
-                    // Kalau Sudah Punya (Render Sistem Kartu)
-                    let completedTasks = tasks.filter(t => t.status === 'Selesai').length;
-                    let progressPct = tasks.length > 0 ? (completedTasks / tasks.length) * 100 : 0;
-                    
-                    let cardsHtml = '';
-                    tasks.forEach((task, index) => {
-                        let isDone = task.status === 'Selesai';
-                        let fileInputId = `ap-proof-${index}`;
+            if (!events || events.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-regular fa-calendar-xmark"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Event</h3><p class="text-slate-500 text-sm">Anda belum ditugaskan dalam event apapun.</p></div>`;
+                return;
+            }
+
+            let html = '';
+            const tOpts = getTeacherDropdownOptions();
+
+            events.forEach((ev, idx) => {
+                if (ev.role === 'ketua') {
+                    let panitiaHtml = '';
+                    if (ev.panitia && ev.panitia.length > 0) {
+                        let divisiMap = {};
+                        ev.panitia.forEach(p => { divisiMap[p.divisi] = true; });
                         
-                        cardsHtml += `
-                            <div class="bg-slate-50 border ${isDone ? 'border-emerald-200' : 'border-slate-200'} rounded-2xl p-5 shadow-sm transition-all relative overflow-hidden group">
-                                ${isDone ? '<div class="absolute right-0 top-0 w-20 h-20 bg-emerald-400 opacity-10 rounded-full blur-xl"></div>' : ''}
-                                <div class="flex justify-between items-start mb-3">
-                                    <h4 class="font-bold text-slate-700 text-lg pr-4">${task.tugas}</h4>
-                                    <span class="shrink-0 ${isDone ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} w-8 h-8 rounded-full flex items-center justify-center font-bold">
-                                        <i class="fa-solid ${isDone ? 'fa-check' : 'fa-xmark'}"></i>
-                                    </span>
+                        Object.keys(divisiMap).forEach(div => {
+                            let divTasks = (ev.allTasks || []).filter(t => t.divisi === div);
+                            let doneTasks = divTasks.filter(t => t.status === 'Selesai').length;
+                            let pct = divTasks.length > 0 ? Math.round((doneTasks / divTasks.length) * 100) : 0;
+                            let is100 = pct === 100 && divTasks.length > 0;
+                            let encodedTasks = encodeURIComponent(JSON.stringify(divTasks));
+                            
+                            panitiaHtml += `
+                                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 shadow-sm relative group cursor-pointer hover:border-awBlue transition-colors" onclick="showDivisiDetail('${div}', '${encodedTasks}')">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-bold text-slate-700">${div}</h4>
+                                        <span class="text-xs font-bold px-2 py-1 rounded-md ${is100 ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-600'}">${pct}%</span>
+                                    </div>
+                                    <div class="w-full bg-slate-200 rounded-full h-1.5 mb-2"><div class="${is100 ? 'bg-emerald-500' : 'bg-awBlue'} h-1.5 rounded-full" style="width: ${pct}%"></div></div>
+                                    <p class="text-[10px] text-slate-400 font-medium mb-3">${doneTasks} dari ${divTasks.length} tugas selesai</p>
+                                    ${is100 ? `<button onclick="event.stopPropagation(); triggerScoreEvent('${ev.title}', '${div}')" class="w-full py-1.5 text-xs font-bold bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors"><i class="fa-solid fa-star mr-1"></i> Beri Nilai</button>` : `<div class="w-full py-1.5 text-xs font-bold bg-slate-200 text-slate-500 rounded-lg text-center">Tugas Belum Tuntas</div>`}
                                 </div>
-                                <p class="text-xs font-semibold text-slate-500 mb-4"><i class="fa-regular fa-calendar mr-1"></i> Deadline: ${task.deadline}</p>
-                                
-                                ${!isDone ? `
-                                    <div class="mt-4 pt-4 border-t border-slate-200">
-                                        <p class="text-xs font-bold text-slate-600 mb-2">Upload Bukti Penyelesaian:</p>
-                                        <div class="flex gap-2">
-                                            <input type="file" id="${fileInputId}" class="flex-1 text-xs border border-slate-200 rounded-lg p-1.5 bg-white file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-awBlueLight file:text-awBlue hover:file:bg-blue-100 cursor-pointer" accept="image/*,.pdf">
-                                            <button id="btn-up-ap-${index}" onclick="uploadActionPlanProof(this, '${r.title}', '${r.divisi}', '${task.tugas}', '${fileInputId}')" class="bg-awBlue text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors flex items-center justify-center min-w-[80px]">
-                                                <span>Upload</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                ` : `
-                                    <div class="mt-4 pt-3 border-t border-emerald-100">
-                                        <a href="${task.bukti}" target="_blank" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"><i class="fa-solid fa-link"></i> Lihat Bukti Terlampir</a>
-                                    </div>
-                                `}
+                            `;
+                        });
+                    }
+
+                    html += `
+                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
+                            <p class="text-xs font-bold text-awBlue uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-crown text-amber-500"></i> Ketua Event</p>
+                            <h3 class="text-2xl font-extrabold text-slate-800 mb-4">${ev.title}</h3>
+                            
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Pantau Divisi</h4>
+                                    <button onclick="document.getElementById('event-form-area-${idx}').classList.toggle('hidden')" class="text-xs px-3 py-1.5 bg-awBlueLight text-awBlue font-bold rounded-lg hover:bg-blue-200 transition-colors"><i class="fa-solid fa-user-plus mr-1"></i> Kepanitiaan</button>
+                                </div>
+                                <div id="event-form-area-${idx}" class="hidden mb-4 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                     <p class="text-xs text-slate-500 mb-3 font-medium">Susun divisi dan pilih guru dari dropdown.</p>
+                                     <form onsubmit="submitCommittee(event, '${ev.title}', ${idx})">
+                                        <div id="committee-rows-container-${idx}" class="space-y-3 mb-4">${getCommitteeRowHTML(tOpts)}</div>
+                                        <button type="button" onclick="document.getElementById('committee-rows-container-${idx}').insertAdjacentHTML('beforeend', getCommitteeRowHTML('${escapeHTML(tOpts)}'))" class="text-xs font-bold text-awBlue bg-white border border-blue-100 px-3 py-2 rounded-lg mb-4 hover:bg-blue-50">+ Tambah Anggota / Divisi</button>
+                                        <button type="submit" id="btn-submit-committee-${idx}" class="w-full px-6 py-2.5 bg-awDark text-white text-sm font-bold rounded-xl shadow-md flex items-center justify-center gap-2"><span>Simpan Panitia</span></button>
+                                     </form>
+                                </div>
+                                ${panitiaHtml ? `<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">${panitiaHtml}</div>` : `<p class="text-xs text-slate-400 italic">Belum ada panitia yang dibentuk.</p>`}
+                            </div>
+                        </div>
+                    `;
+                } else if (ev.role === 'member') {
+                    let tasks = ev.tasks || [];
+                    let cardsHtml = '';
+                    let progressUI = '';
+                    
+                    if (tasks.length === 0) {
+                        cardsHtml = `
+                            <div class="col-span-full">
+                                <p class="text-sm text-slate-500 mt-2 mb-4">Anda belum membuat rencana Action Plan.</p>
+                                <button onclick="document.getElementById('event-ap-area-${idx}').classList.toggle('hidden')" class="px-5 py-2 text-sm bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Buat Action Plan</button>
+                                <div id="event-ap-area-${idx}" class="hidden mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                                     <form onsubmit="submitNewActionPlan(event, '${ev.title}', '${ev.divisi}', ${idx})">
+                                        <div id="actionplan-rows-container-${idx}" class="space-y-3 mb-4">${getActionPlanRowHTML()}</div>
+                                        <button type="button" onclick="document.getElementById('actionplan-rows-container-${idx}').insertAdjacentHTML('beforeend', getActionPlanRowHTML())" class="text-xs font-bold text-awBlue bg-white px-3 py-2 border border-blue-100 rounded-lg mb-4">+ Tambah Tugas</button>
+                                        <button type="submit" id="btn-submit-actionplan-${idx}" class="w-full py-2.5 bg-emerald-500 text-white font-bold rounded-xl shadow-md flex items-center justify-center gap-2"><span>Kirim Tugas</span></button>
+                                     </form>
+                                </div>
                             </div>
                         `;
-                    });
-
-                    container.innerHTML = `
-                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6">
-                            <div class="flex justify-between items-start mb-6">
-                                <div>
-                                    <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-users"></i> Divisi ${r.divisi}</p>
-                                    <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                                </div>
+                    } else {
+                        let completedTasks = tasks.filter(t => t.status === 'Selesai').length;
+                        let progressPct = Math.round((completedTasks / tasks.length) * 100);
+                        
+                        progressUI = `
+                            <div class="mb-6 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <div class="flex justify-between text-sm font-bold mb-2"><span class="text-slate-600">Progress Divisi</span><span class="${progressPct === 100 ? 'text-emerald-600' : 'text-awBlue'}">${progressPct}%</span></div>
+                                <div class="w-full bg-slate-200 rounded-full h-2.5"><div class="${progressPct === 100 ? 'bg-emerald-500' : 'bg-awBlue'} h-2.5 rounded-full transition-all" style="width: ${progressPct}%"></div></div>
+                                <p class="text-[10px] sm:text-xs font-medium text-slate-400 mt-2">${completedTasks} dari ${tasks.length} tugas diselesaikan</p>
                             </div>
+                        `;
+
+                        tasks.forEach((task, tIdx) => {
+                            let isDone = task.status === 'Selesai';
+                            let fileInputId = `ap-proof-${idx}-${tIdx}`;
                             
-                            <!-- Progress Bar -->
-                            <div class="mb-8 bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                <div class="flex justify-between text-sm font-bold mb-2">
-                                    <span class="text-slate-600">Progress Divisi</span>
-                                    <span class="${progressPct === 100 ? 'text-emerald-600' : 'text-awBlue'}">${Math.round(progressPct)}%</span>
+                            cardsHtml += `
+                                <div class="bg-slate-50 border ${isDone ? 'border-emerald-200' : 'border-slate-200'} rounded-2xl p-4 sm:p-5 shadow-sm transition-all relative overflow-hidden group">
+                                    ${isDone ? '<div class="absolute right-0 top-0 w-20 h-20 bg-emerald-400 opacity-10 rounded-full blur-xl"></div>' : ''}
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h4 class="font-bold text-slate-700 text-sm sm:text-base pr-4 leading-tight">${task.tugas}</h4>
+                                        <span class="shrink-0 ${isDone ? 'bg-emerald-100 text-emerald-600' : 'bg-rose-100 text-rose-600'} w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm"><i class="fa-solid ${isDone ? 'fa-check' : 'fa-xmark'}"></i></span>
+                                    </div>
+                                    <p class="text-[10px] sm:text-xs font-semibold text-slate-500 mb-3"><i class="fa-regular fa-calendar mr-1"></i> Deadline: ${task.deadline}</p>
+                                    
+                                    ${!isDone ? `
+                                        <div class="mt-3 pt-3 border-t border-slate-200">
+                                            <p class="text-[10px] font-bold text-slate-500 mb-1.5 uppercase">Upload Bukti</p>
+                                            <div class="flex gap-2">
+                                                <input type="file" id="${fileInputId}" class="flex-1 text-[10px] sm:text-xs border border-slate-200 rounded-lg p-1.5 bg-white file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-semibold file:bg-awBlueLight file:text-awBlue hover:file:bg-blue-100 cursor-pointer" accept="image/*,.pdf">
+                                                <button id="btn-up-ap-${idx}-${tIdx}" onclick="uploadActionPlanProof(this, '${ev.title}', '${ev.divisi}', '${task.tugas}', '${fileInputId}')" class="bg-awBlue text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-blue-800 transition-colors min-w-[70px]">Upload</button>
+                                            </div>
+                                        </div>
+                                    ` : `
+                                        <div class="mt-3 pt-2 border-t border-emerald-100">
+                                            <a href="${task.bukti}" target="_blank" class="text-[10px] sm:text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1"><i class="fa-solid fa-paperclip"></i> Lihat Bukti Terlampir</a>
+                                        </div>
+                                    `}
                                 </div>
-                                <div class="w-full bg-slate-200 rounded-full h-2.5">
-                                    <div class="${progressPct === 100 ? 'bg-emerald-500' : 'bg-awBlue'} h-2.5 rounded-full transition-all duration-1000" style="width: ${progressPct}%"></div>
-                                </div>
-                                <p class="text-xs font-medium text-slate-400 mt-2">${completedTasks} dari ${tasks.length} tugas diselesaikan</p>
-                            </div>
+                            `;
+                        });
+                    }
 
-                            <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Daftar Action Plan</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                ${cardsHtml}
+                    html += `
+                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
+                            <p class="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-users text-emerald-500"></i> Divisi ${ev.divisi}</p>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-6">${ev.title}</h3>
+                            ${progressUI}
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">${cardsHtml}</div>
+                        </div>
+                    `;
+                }
+            });
+            container.innerHTML = html;
+        }
+
+        function renderCommissionView() {
+            const container = document.getElementById('comm-dynamic-container');
+            const comms = appState.roles.commissions;
+            
+            if (!comms || comms.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-solid fa-shield-cat"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Komisi</h3><p class="text-slate-500 text-sm">Anda belum tergabung dalam program komisi.</p></div>`;
+                return;
+            }
+
+            let html = '';
+            const tOpts = getTeacherDropdownOptions();
+
+            comms.forEach((cm, idx) => {
+                if (cm.role === 'ketua') {
+                    let progHtml = '';
+                    if (cm.programs && cm.programs.length > 0) {
+                        cm.programs.forEach(p => {
+                            let progHistory = (cm.allHistory || []).filter(h => h.program === p.namaProgram);
+                            let filesCount = progHistory.length;
+                            let pct = Math.min(100, Math.round((filesCount / 3) * 100)); // 3 files = 100% in UI
+                            let isUnlocked = filesCount >= 6;
+                            let encodedHist = encodeURIComponent(JSON.stringify(progHistory));
+                            
+                            progHtml += `
+                                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 shadow-sm relative group cursor-pointer hover:border-indigo-400 transition-colors" onclick="showProgramDetail('${p.namaProgram}', '${p.pic}', '${encodedHist}')">
+                                    <h4 class="font-bold text-slate-700 text-sm mb-1 line-clamp-1">${p.namaProgram}</h4>
+                                    <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest mb-3"><i class="fa-solid fa-user-tie mr-1"></i> ${p.pic}</p>
+                                    
+                                    <div class="flex justify-between text-[10px] font-bold mb-1"><span class="text-slate-500">Progress</span><span class="${pct===100?'text-emerald-600':'text-indigo-600'}">${pct}%</span></div>
+                                    <div class="w-full bg-slate-200 rounded-full h-1.5 mb-2"><div class="${pct===100?'bg-emerald-500':'bg-indigo-500'} h-1.5 rounded-full" style="width: ${pct}%"></div></div>
+                                    <p class="text-[10px] text-slate-400 font-medium mb-3">${filesCount} file laporan disetor.</p>
+                                    
+                                    ${isUnlocked ? `<button onclick="event.stopPropagation(); triggerScoreComm('${cm.title}', '${p.namaProgram}', '${p.pic}')" class="w-full py-1.5 text-xs font-bold bg-amber-100 text-amber-700 rounded-lg hover:bg-amber-200 transition-colors"><i class="fa-solid fa-star mr-1"></i> Beri Nilai</button>` : `<div class="w-full py-1.5 text-[10px] font-bold bg-slate-200 text-slate-400 rounded-lg text-center uppercase tracking-wider"><i class="fa-solid fa-lock mr-1"></i> Butuh 6 File</div>`}
+                                </div>
+                            `;
+                        });
+                    }
+
+                    html += `
+                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative overflow-hidden">
+                            <p class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-400"></i> Ketua Komisi</p>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-6">${cm.title}</h3>
+                            
+                            <div class="mb-6">
+                                <div class="flex justify-between items-center mb-3">
+                                    <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest">Daftar Program</h4>
+                                    <button onclick="document.getElementById('comm-form-area-${idx}').classList.toggle('hidden')" class="text-xs px-3 py-1.5 bg-indigo-50 text-indigo-600 font-bold rounded-lg hover:bg-indigo-100 transition-colors"><i class="fa-solid fa-plus mr-1"></i> Rancang Program</button>
+                                </div>
+                                <div id="comm-form-area-${idx}" class="hidden mb-4 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
+                                     <form onsubmit="submitProgram(event, '${cm.title}', ${idx})">
+                                        <div id="program-rows-container-${idx}" class="space-y-3 mb-4">${getProgramRowHTML(tOpts)}</div>
+                                        <button type="button" onclick="document.getElementById('program-rows-container-${idx}').insertAdjacentHTML('beforeend', getProgramRowHTML('${escapeHTML(tOpts)}'))" class="text-xs font-bold text-indigo-600 bg-white border border-indigo-100 px-3 py-2 rounded-lg mb-4 hover:bg-indigo-50">+ Tambah Program</button>
+                                        <button type="submit" id="btn-submit-program-${idx}" class="w-full px-6 py-2.5 bg-awDark text-white text-sm font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Simpan Program</span></button>
+                                     </form>
+                                </div>
+                                ${progHtml ? `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">${progHtml}</div>` : `<p class="text-xs text-slate-400 italic">Belum ada program dirancang.</p>`}
+                            </div>
+                        </div>
+                    `;
+                } else if (cm.role === 'pic') {
+                    let history = cm.history || [];
+                    let timelineHtml = '';
+                    
+                    if(history.length > 0) {
+                        history.forEach((h, i) => {
+                            let tglStr = h.tanggal;
+                            timelineHtml += `
+                                <div class="relative pl-6 sm:pl-8 py-3 group">
+                                    <div class="absolute left-0 top-4 w-3 h-3 bg-awBlue rounded-full border-2 border-white shadow-sm z-10"></div>
+                                    ${i !== history.length - 1 ? '<div class="absolute left-1.5 top-5 w-0.5 h-full bg-blue-100 -z-0"></div>' : ''}
+                                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 sm:p-4 shadow-sm hover:shadow-md transition-shadow">
+                                        <div class="flex justify-between items-start">
+                                            <div>
+                                                <h4 class="font-bold text-slate-700 text-sm">${h.keterangan}</h4>
+                                                <p class="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5"><i class="fa-regular fa-clock mr-1"></i> ${tglStr}</p>
+                                            </div>
+                                            <a href="${h.bukti}" target="_blank" class="w-8 h-8 bg-blue-100 text-awBlue rounded-lg flex items-center justify-center hover:bg-awBlue hover:text-white transition-colors" title="Lihat Lampiran"><i class="fa-solid fa-paperclip"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        timelineHtml = `<div class="text-center py-6 text-sm text-slate-400 font-medium italic bg-slate-50 rounded-xl border border-dashed border-slate-200">Belum ada histori laporan.</div>`;
+                    }
+
+                    html += `
+                        <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 relative">
+                            <p class="text-xs font-bold text-awOrange uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-bolt text-orange-400"></i> PIC Program</p>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-slate-800 mb-1">${cm.program}</h3>
+                            <p class="text-[11px] sm:text-xs font-bold text-slate-400 uppercase tracking-widest mb-6 border-b border-slate-100 pb-4">Komisi: <span class="text-slate-600">${cm.title}</span></p>
+                            
+                            <div class="flex flex-col md:flex-row gap-6 sm:gap-8">
+                                <div class="flex-1 order-2 md:order-1">
+                                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Histori Laporan</h4>
+                                    <div class="relative">${timelineHtml}</div>
+                                </div>
+                                <div class="md:w-1/3 shrink-0 order-1 md:order-2">
+                                    <div class="bg-slate-800 rounded-2xl p-5 sm:p-6 text-white shadow-lg md:sticky md:top-24">
+                                        <h4 class="font-bold text-sm sm:text-base mb-4 flex items-center gap-2"><i class="fa-solid fa-cloud-arrow-up text-blue-400"></i> Laporan Baru</h4>
+                                        <form onsubmit="submitNewCommProgress(event, '${cm.program}', ${idx})">
+                                            <div class="mb-4">
+                                                <label class="block text-[10px] sm:text-xs font-semibold text-slate-400 mb-1.5 uppercase">Keterangan</label>
+                                                <input type="text" id="inp-comm-ket-${idx}" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-xs sm:text-sm text-white focus:outline-none focus:border-blue-500" placeholder="Cth: Pekan 1" required>
+                                            </div>
+                                            <div class="mb-6">
+                                                <label class="block text-[10px] sm:text-xs font-semibold text-slate-400 mb-1.5 uppercase">Lampiran (Foto/PDF)</label>
+                                                <div class="border-2 border-dashed border-slate-600 rounded-xl p-4 text-center hover:border-blue-500 transition-colors cursor-pointer bg-slate-900/50" onclick="document.getElementById('comm-file-upload-${idx}').click()">
+                                                    <i class="fa-solid fa-file-arrow-up text-xl sm:text-2xl text-slate-500 mb-2"></i>
+                                                    <p id="comm-file-name-${idx}" class="text-[10px] sm:text-xs text-slate-400 font-medium break-words">Klik pilih file</p>
+                                                    <input type="file" id="comm-file-upload-${idx}" class="hidden" accept="image/*,.pdf" onchange="document.getElementById('comm-file-name-${idx}').innerText = this.files[0].name" required>
+                                                </div>
+                                            </div>
+                                            <button type="submit" id="btn-submit-comm-prog-${idx}" class="w-full py-2.5 sm:py-3 bg-awBlue hover:bg-blue-600 text-white text-sm font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2"><span>Kirim Laporan</span></button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `;
                 }
-            } else {
-                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-regular fa-calendar-xmark"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Event</h3><p class="text-slate-500 text-sm">Anda belum ditugaskan dalam event apapun.</p></div>`;
-            }
+            });
+            container.innerHTML = html;
         }
 
-        // HTML Templates
-        function getActionPlanRowHTML() { return `<div class="flex flex-col sm:flex-row gap-3 ap-row items-start sm:items-center bg-slate-50 p-3 rounded-xl border border-slate-100"><input type="text" class="ap-task w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Rencana tugas..." required><input type="date" class="ap-date w-full sm:w-auto border border-slate-200 rounded-lg p-2.5 text-sm font-medium text-slate-600" required><button type="button" onclick="this.closest('.ap-row').remove()" class="w-full sm:w-10 h-10 bg-white border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash"></i></button></div>`; }
-        function getCommitteeRowHTML() { return `<div class="flex flex-col sm:flex-row gap-3 comm-row items-start sm:items-center bg-slate-50 p-3 rounded-xl border border-slate-100"><input type="text" class="comm-div w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Nama Divisi" required><input type="text" class="comm-guru w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Nama Guru" required><button type="button" onclick="this.closest('.comm-row').remove()" class="w-full sm:w-10 h-10 bg-white border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash"></i></button></div>`; }
+        function getActionPlanRowHTML() { 
+            return `<div class="flex flex-col sm:flex-row gap-2 ap-row items-start sm:items-center bg-white p-2 sm:p-3 rounded-xl border border-slate-200"><input type="text" class="ap-task w-full border border-slate-200 rounded-lg p-2 text-xs font-medium" placeholder="Rencana tugas..." required><input type="date" class="ap-date w-full sm:w-auto border border-slate-200 rounded-lg p-2 text-xs font-medium text-slate-600" required><button type="button" onclick="this.closest('.ap-row').remove()" class="w-full sm:w-8 h-8 bg-slate-50 border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash text-xs"></i></button></div>`; 
+        }
+        
+        function getCommitteeRowHTML(opts) { 
+            let unescapedOpts = opts;
+            if(opts && opts.includes('&lt;')) {
+                let txt = document.createElement("textarea"); txt.innerHTML = opts; unescapedOpts = txt.value;
+            }
+            return `<div class="flex flex-col sm:flex-row gap-2 comm-row items-start sm:items-center bg-white p-2 sm:p-3 rounded-xl border border-slate-200"><input type="text" class="comm-div w-full sm:w-1/3 border border-slate-200 rounded-lg p-2 text-xs font-medium" placeholder="Nama Divisi" required><select class="comm-guru w-full border border-slate-200 rounded-lg p-2 text-xs font-medium text-slate-700 bg-white" required>${unescapedOpts || ''}</select><button type="button" onclick="this.closest('.comm-row').remove()" class="w-full sm:w-8 h-8 bg-slate-50 border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash text-xs"></i></button></div>`; 
+        }
 
-        // Logic Submit
-        async function submitCommittee(e, namaEvent) { 
+        function getProgramRowHTML(opts) { 
+            let unescapedOpts = opts;
+            if(opts && opts.includes('&lt;')) {
+                let txt = document.createElement("textarea"); txt.innerHTML = opts; unescapedOpts = txt.value;
+            }
+            return `<div class="flex flex-col sm:flex-row gap-2 comm-prog-row items-start sm:items-center bg-white p-2 sm:p-3 rounded-xl border border-slate-200"><input type="text" class="prog-name w-full sm:w-1/2 border border-slate-200 rounded-lg p-2 text-xs font-medium" placeholder="Nama Program" required><select class="prog-pic w-full border border-slate-200 rounded-lg p-2 text-xs font-medium text-slate-700 bg-white" required>${unescapedOpts || ''}</select><button type="button" onclick="this.closest('.comm-prog-row').remove()" class="w-full sm:w-8 h-8 bg-slate-50 border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash text-xs"></i></button></div>`; 
+        }
+
+        window.showDivisiDetail = function(divName, encodedTasks) {
+            const tasks = JSON.parse(decodeURIComponent(encodedTasks));
+            const content = document.getElementById('modal-content');
+            document.getElementById('modal-title').innerText = `Detail Divisi ${divName}`;
+            
+            let html = '<div class="space-y-3">';
+            if(tasks.length === 0) html += '<p class="text-sm text-slate-500 italic">Belum ada tugas disubmit.</p>';
+            
+            tasks.forEach(t => {
+                let isDone = t.status === 'Selesai';
+                html += `
+                    <div class="p-3 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm text-slate-700">${t.tugas}</p>
+                            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-regular fa-calendar mr-1"></i> ${t.deadline}</p>
+                        </div>
+                        ${isDone ? `<a href="${t.bukti}" target="_blank" class="px-3 py-1.5 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-lg hover:bg-emerald-200"><i class="fa-solid fa-link mr-1"></i> Bukti</a>` : `<span class="px-2 py-1 bg-slate-200 text-slate-500 text-[10px] font-bold rounded uppercase">Pending</span>`}
+                    </div>`;
+            });
+            html += '</div>';
+            content.innerHTML = html;
+            openModal('detail-modal');
+        }
+
+        window.showProgramDetail = function(progName, picName, encodedHist) {
+            const hist = JSON.parse(decodeURIComponent(encodedHist));
+            const content = document.getElementById('modal-content');
+            document.getElementById('modal-title').innerHTML = `Detail Program<br><span class="text-sm font-medium text-slate-500">${progName} - PIC: ${picName}</span>`;
+            
+            let html = '<div class="space-y-3">';
+            if(hist.length === 0) html += '<p class="text-sm text-slate-500 italic">Belum ada laporan disetor.</p>';
+            
+            hist.forEach(h => {
+                let tgl = h.tanggal;
+                html += `
+                    <div class="p-3 border border-slate-200 rounded-xl bg-slate-50 flex justify-between items-center">
+                        <div>
+                            <p class="font-bold text-sm text-slate-700">${h.keterangan}</p>
+                            <p class="text-[10px] text-slate-500 mt-0.5"><i class="fa-regular fa-clock mr-1"></i> ${tgl}</p>
+                        </div>
+                        <a href="${h.bukti}" target="_blank" class="px-3 py-1.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-lg hover:bg-indigo-200"><i class="fa-solid fa-paperclip mr-1"></i> Lihat</a>
+                    </div>`;
+            });
+            html += '</div>';
+            content.innerHTML = html;
+            openModal('detail-modal');
+        }
+
+        window.triggerScoreEvent = function(eventName, divName) {
+            alert(`Fitur Penilaian Divisi ${divName} (Event: ${eventName}) akan mengarah ke form khusus penilaian.`);
+        }
+
+        window.triggerScoreComm = function(commName, progName, picName) {
+            alert(`Fitur Penilaian PIC ${picName} (Program: ${progName}) unlocked! Mengarah ke form penilaian.`);
+        }
+
+        async function submitCommittee(e, namaEvent, idx) { 
             e.preventDefault(); 
-            const btn = document.getElementById('btn-submit-committee');
+            const form = e.target;
+            const btn = document.getElementById(`btn-submit-committee-${idx}`);
             btn.innerHTML = `<div class="loader-spin"></div> <span>Menyimpan...</span>`;
             btn.disabled = true;
 
-            const rows = document.querySelectorAll('.comm-row');
+            const rows = form.querySelectorAll('.comm-row');
             let anggota = [];
             rows.forEach(row => {
                 anggota.push({ divisi: row.querySelector('.comm-div').value, namaGuru: row.querySelector('.comm-guru').value });
             });
             
-            const payload = { namaEvent: namaEvent, anggota: anggota };
-            const res = await apiPost('saveKepanitiaan', payload);
+            const res = await apiPost('saveKepanitiaan', { namaEvent: namaEvent, anggota: anggota });
             
             if(res.status === 'success') {
                 showToast(res.message, 'success');
-                e.target.reset();
-                document.getElementById('event-form-area').classList.add('hidden');
-            } else {
-                showToast(res.message, 'error');
-            }
+                form.reset();
+                document.getElementById(`event-form-area-${idx}`).classList.add('hidden');
+                loadTeacherRoles(); 
+            } else showToast(res.message, 'error');
             
-            btn.innerHTML = `<span>Simpan</span>`;
+            btn.innerHTML = `<span>Simpan Panitia</span>`;
             btn.disabled = false;
         }
 
-        async function submitNewActionPlan(e, namaEvent, divisi) {
+        async function submitNewActionPlan(e, namaEvent, divisi, idx) {
             e.preventDefault();
-            const btn = document.getElementById('btn-submit-actionplan');
+            const form = e.target;
+            const btn = document.getElementById(`btn-submit-actionplan-${idx}`);
             btn.innerHTML = `<div class="loader-spin"></div> <span>Mengirim...</span>`;
             btn.disabled = true;
 
-            const rows = document.querySelectorAll('.ap-row');
+            const rows = form.querySelectorAll('.ap-row');
             let promises = [];
             
             rows.forEach(row => {
-                const payload = {
-                    namaEvent: namaEvent,
-                    divisi: divisi,
-                    tugas: row.querySelector('.ap-task').value,
-                    deadline: row.querySelector('.ap-date').value
-                };
+                const payload = { namaEvent: namaEvent, divisi: divisi, tugas: row.querySelector('.ap-task').value, deadline: row.querySelector('.ap-date').value };
                 promises.push(apiPost('saveActionPlan', payload));
             });
 
             await Promise.all(promises);
             showToast('Semua rencana Action Plan berhasil disimpan!', 'success');
-            
-            // Reload UI to show Cards
             loadTeacherRoles(); 
         }
 
         async function uploadActionPlanProof(btnEl, namaEvent, divisi, tugas, inputId) {
             const fileInput = document.getElementById(inputId);
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showToast('Pilih file bukti terlebih dahulu!', 'error');
-                return;
-            }
-
-            const file = fileInput.files[0];
+            if (!fileInput.files || fileInput.files.length === 0) { showToast('Pilih file bukti terlebih dahulu!', 'error'); return; }
             
-            // UI Loading
+            const file = fileInput.files[0];
             const originalContent = btnEl.innerHTML;
             btnEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>`;
-            btnEl.disabled = true;
-            fileInput.disabled = true;
+            btnEl.disabled = true; fileInput.disabled = true;
 
             try {
                 const base64Data = await fileToBase64(file);
-                const payload = {
-                    namaEvent: namaEvent,
-                    divisi: divisi,
-                    tugas: tugas,
-                    fileName: file.name,
-                    base64File: base64Data
-                };
-
+                const payload = { namaEvent: namaEvent, divisi: divisi, tugas: tugas, fileName: file.name, base64File: base64Data };
                 const res = await apiPost('updateActionPlanProof', payload);
+                
                 if (res.status === 'success') {
                     showToast('Bukti diupload! Tugas selesai.', 'success');
-                    // Refresh data
                     loadTeacherRoles();
                 } else {
                     showToast(res.message, 'error');
-                    btnEl.innerHTML = originalContent;
-                    btnEl.disabled = false;
-                    fileInput.disabled = false;
+                    btnEl.innerHTML = originalContent; btnEl.disabled = false; fileInput.disabled = false;
                 }
             } catch (error) {
                 showToast('Gagal memproses file.', 'error');
-                btnEl.innerHTML = originalContent;
-                btnEl.disabled = false;
-                fileInput.disabled = false;
+                btnEl.innerHTML = originalContent; btnEl.disabled = false; fileInput.disabled = false;
             }
         }
 
-        // ==========================================
-        // RENDER & LOGIC: COMMISSION (Timeline System)
-        // ==========================================
-        function renderCommissionView() {
-            const container = document.getElementById('comm-dynamic-container');
-            const r = appState.roles.commission || {};
-            
-            if (r.role === 'ketua') {
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6 relative overflow-hidden">
-                        <p class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-400"></i> Ketua Komisi</p>
-                        <h3 class="text-2xl font-extrabold text-slate-800">${r.title}</h3>
-                        <p class="text-sm text-slate-500 mt-2 mb-6">Kelola daftar program kerja komisi beserta PIC.</p>
-                        <button onclick="document.getElementById('comm-form-area').classList.toggle('hidden')" class="px-6 py-3 bg-awBlue text-white font-bold rounded-xl shadow-md hover:bg-blue-800 transition-all">Rancang Program</button>
-                        <div id="comm-form-area" class="hidden mt-6 pt-6 border-t border-slate-100">
-                             <form onsubmit="submitProgram(event, '${r.title}')">
-                                <div id="program-rows-container" class="space-y-3 mb-4">${getProgramRowHTML()}</div>
-                                <button type="button" onclick="document.getElementById('program-rows-container').insertAdjacentHTML('beforeend', getProgramRowHTML())" class="text-sm font-bold text-indigo-600 bg-indigo-50 px-4 py-2 rounded-lg mb-6">+ Tambah Program</button>
-                                <button type="submit" id="btn-submit-program" class="w-full sm:w-auto px-8 py-3 bg-awDark text-white font-bold rounded-xl shadow-md flex justify-center gap-2"><span>Simpan</span></button>
-                             </form>
-                        </div>
-                    </div>`;
-            } else if (r.role === 'pic') {
-                let history = r.history || [];
-                
-                let timelineHtml = '';
-                if(history.length > 0) {
-                    history.forEach((h, i) => {
-                        let tglStr = new Date(h.tanggal).toLocaleDateString('id-ID', { year: 'numeric', month: 'short', day: 'numeric' });
-                        timelineHtml += `
-                            <div class="relative pl-6 sm:pl-8 py-3 group">
-                                <div class="absolute left-0 top-4 w-3 h-3 bg-awBlue rounded-full border-2 border-white shadow-sm z-10 group-hover:scale-125 transition-transform"></div>
-                                ${i !== history.length - 1 ? '<div class="absolute left-1.5 top-5 w-0.5 h-full bg-blue-100 -z-0"></div>' : ''}
-                                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <h4 class="font-bold text-slate-700">${h.keterangan}</h4>
-                                            <p class="text-xs text-slate-400 font-medium mt-0.5"><i class="fa-regular fa-clock mr-1"></i> ${tglStr}</p>
-                                        </div>
-                                        <a href="${h.bukti}" target="_blank" class="w-8 h-8 bg-blue-100 text-awBlue rounded-lg flex items-center justify-center hover:bg-awBlue hover:text-white transition-colors" title="Lihat Lampiran">
-                                            <i class="fa-solid fa-paperclip"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    timelineHtml = `<div class="text-center py-6 text-sm text-slate-400 font-medium italic bg-slate-50 rounded-xl border border-dashed border-slate-200">Belum ada histori laporan.</div>`;
-                }
-
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl shadow-soft border border-slate-100 p-6 sm:p-8 mb-6">
-                        <p class="text-xs font-bold text-awOrange uppercase tracking-widest mb-1 flex items-center gap-2"><i class="fa-solid fa-bolt text-orange-400"></i> PIC Program</p>
-                        <h3 class="text-2xl font-extrabold text-slate-800">${r.program}</h3>
-                        <p class="text-sm font-medium text-slate-500 mt-1 mb-8">Komisi: <span class="text-slate-700">${r.title}</span></p>
-                        
-                        <div class="flex flex-col md:flex-row gap-8">
-                            <!-- Left: Timeline -->
-                            <div class="flex-1">
-                                <h4 class="text-sm font-bold text-slate-500 uppercase tracking-widest mb-4 border-b border-slate-100 pb-2">Histori Laporan</h4>
-                                <div class="relative">
-                                    ${timelineHtml}
-                                </div>
-                            </div>
-
-                            <!-- Right: Upload Form -->
-                            <div class="md:w-1/3 shrink-0">
-                                <div class="bg-slate-800 rounded-2xl p-6 text-white shadow-lg sticky top-24">
-                                    <h4 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fa-solid fa-cloud-arrow-up text-blue-400"></i> Laporan Baru</h4>
-                                    <form onsubmit="submitNewCommProgress(event, '${r.program}')">
-                                        <div class="mb-4">
-                                            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Keterangan (Contoh: Pekan 1)</label>
-                                            <input type="text" id="inp-comm-ket" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-blue-500" required>
-                                        </div>
-                                        <div class="mb-6">
-                                            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Lampiran (Foto/PDF)</label>
-                                            <div class="border-2 border-dashed border-slate-600 rounded-xl p-4 text-center hover:border-blue-500 transition-colors cursor-pointer bg-slate-900/50" onclick="document.getElementById('comm-file-upload').click()">
-                                                <i class="fa-solid fa-file-arrow-up text-2xl text-slate-500 mb-2"></i>
-                                                <p id="comm-file-name" class="text-xs text-slate-400 font-medium break-words">Klik untuk pilih file</p>
-                                                <input type="file" id="comm-file-upload" class="hidden" accept="image/*,.pdf" onchange="document.getElementById('comm-file-name').innerText = this.files[0].name" required>
-                                            </div>
-                                        </div>
-                                        <button type="submit" id="btn-submit-comm-prog" class="w-full py-3 bg-awBlue hover:bg-blue-600 text-white font-bold rounded-xl shadow-md transition-colors flex items-center justify-center gap-2">
-                                            <span>Kirim Laporan</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-            } else {
-                container.innerHTML = `<div class="bg-white rounded-3xl border border-dashed border-slate-200 p-8 text-center flex flex-col items-center justify-center min-h-[40vh]"><div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 text-3xl mb-4"><i class="fa-solid fa-shield-cat"></i></div><h3 class="text-lg font-bold text-slate-700 mb-1">Belum Ada Amanah Komisi</h3><p class="text-slate-500 text-sm">Anda belum tergabung dalam program komisi.</p></div>`;
-            }
-        }
-
-        function getProgramRowHTML() { return `<div class="flex flex-col sm:flex-row gap-3 comm-prog-row items-start sm:items-center bg-slate-50 p-3 rounded-xl border border-slate-100"><input type="text" class="prog-name w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="Nama Program" required><input type="text" class="prog-pic w-full border border-slate-200 rounded-lg p-2.5 text-sm font-medium" placeholder="PIC (Guru)" required><button type="button" onclick="this.closest('.comm-prog-row').remove()" class="w-full sm:w-10 h-10 bg-white border border-slate-200 text-slate-400 hover:text-red-500 rounded-lg"><i class="fa-solid fa-trash"></i></button></div>`; }
-        
-        async function submitProgram(e, tipeKomisi) { 
+        async function submitProgram(e, tipeKomisi, idx) { 
             e.preventDefault(); 
-            const btn = document.getElementById('btn-submit-program');
+            const form = e.target;
+            const btn = document.getElementById(`btn-submit-program-${idx}`);
             btn.innerHTML = `<div class="loader-spin"></div> <span>Menyimpan...</span>`;
             btn.disabled = true;
 
-            const rows = document.querySelectorAll('.comm-prog-row');
+            const rows = form.querySelectorAll('.comm-prog-row');
             let programs = [];
             rows.forEach(row => {
                 programs.push({ namaProgram: row.querySelector('.prog-name').value, picGuru: row.querySelector('.prog-pic').value });
             });
             
-            const payload = { tipeKomisi: tipeKomisi, programs: programs };
-            const res = await apiPost('saveCommProgram', payload);
+            const res = await apiPost('saveCommProgram', { tipeKomisi: tipeKomisi, programs: programs });
             
             if(res.status === 'success') {
                 showToast(res.message, 'success');
-                e.target.reset();
-                document.getElementById('comm-form-area').classList.add('hidden');
-            } else {
-                showToast(res.message, 'error');
-            }
+                form.reset();
+                document.getElementById(`comm-form-area-${idx}`).classList.add('hidden');
+                loadTeacherRoles(); 
+            } else showToast(res.message, 'error');
             
-            btn.innerHTML = `<span>Simpan</span>`;
+            btn.innerHTML = `<span>Simpan Program</span>`;
             btn.disabled = false;
         }
 
-        async function submitNewCommProgress(e, programName) {
+        async function submitNewCommProgress(e, programName, idx) {
             e.preventDefault();
-            const fileInput = document.getElementById('comm-file-upload');
-            const ketInput = document.getElementById('inp-comm-ket').value;
+            const fileInput = document.getElementById(`comm-file-upload-${idx}`);
+            const ketInput = document.getElementById(`inp-comm-ket-${idx}`).value;
 
-            if (!fileInput.files || fileInput.files.length === 0) {
-                showToast('Harap pilih file lampiran!', 'error');
-                return;
-            }
+            if (!fileInput.files || fileInput.files.length === 0) { showToast('Harap pilih file lampiran!', 'error'); return; }
 
-            const btn = document.getElementById('btn-submit-comm-prog');
+            const btn = document.getElementById(`btn-submit-comm-prog-${idx}`);
             btn.innerHTML = `<div class="loader-spin"></div> <span>Mengupload...</span>`;
             btn.disabled = true;
 
             try {
                 const file = fileInput.files[0];
                 const base64Data = await fileToBase64(file);
+                const payload = { namaProgram: programName, picGuru: appState.user.namaLengkap, keterangan: ketInput, fileName: file.name, base64File: base64Data };
                 
-                const payload = {
-                    namaProgram: programName,
-                    picGuru: appState.user.namaLengkap,
-                    keterangan: ketInput,
-                    fileName: file.name,
-                    base64File: base64Data
-                };
-
                 const res = await apiPost('saveCommProgress', payload);
                 if (res.status === 'success') {
                     showToast('Laporan berhasil ditambahkan!', 'success');
-                    // Refresh data
                     loadTeacherRoles();
                 } else {
                     showToast(res.message, 'error');
-                    btn.innerHTML = `<span>Kirim Laporan</span>`;
-                    btn.disabled = false;
+                    btn.innerHTML = `<span>Kirim Laporan</span>`; btn.disabled = false;
                 }
             } catch(err) {
                 showToast('Terjadi kesalahan saat upload.', 'error');
-                btn.innerHTML = `<span>Kirim Laporan</span>`;
-                btn.disabled = false;
+                btn.innerHTML = `<span>Kirim Laporan</span>`; btn.disabled = false;
             }
         }
 
-        // ==========================================
-        // SCANNER UTILS
-        // ==========================================
         function setScanMode(mode) {
             appState.scanMode = mode;
             const btnIn = document.getElementById('btn-scan-in');
@@ -1026,12 +1160,8 @@
         }
 
         function toggleCamera() {
-            if (isScannerRunning) {
-                stopScanner().then(() => updateBtnUI(false));
-            } else {
-                startScanner();
-                updateBtnUI(true);
-            }
+            if (isScannerRunning) { stopScanner().then(() => updateBtnUI(false)); } 
+            else { startScanner(); updateBtnUI(true); }
         }
 
         function updateBtnUI(isRunning) {
@@ -1057,11 +1187,7 @@
         }
 
         function startScanner() {
-            if(!html5QrCode) {
-                html5QrCode = new Html5Qrcode("reader");
-            }
-            
-            // Kalkulasi ukuran kotak scan (qrbox) dinamis 70% dari layar
+            if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
             let boxSize = Math.min(window.innerWidth * 0.7, 300);
             const config = { fps: 10, qrbox: { width: boxSize, height: boxSize } };
             
@@ -1070,10 +1196,7 @@
                 isScannerRunning = true;
                 document.getElementById('scan-laser-decor').classList.remove('hidden');
             })
-            .catch(err => {
-                showToast("Gagal mengakses kamera browser.", "error");
-                updateBtnUI(false);
-            });
+            .catch(err => { showToast("Gagal mengakses kamera browser.", "error"); updateBtnUI(false); });
         }
 
         function stopScanner() {
@@ -1083,13 +1206,8 @@
                         isScannerRunning = false;
                         document.getElementById('scan-laser-decor').classList.add('hidden');
                         resolve();
-                    }).catch(err => {
-                        console.error(err);
-                        resolve();
-                    });
-                } else {
-                    resolve();
-                }
+                    }).catch(err => { resolve(); });
+                } else resolve();
             });
         }
 
@@ -1098,32 +1216,22 @@
             updateBtnUI(false);
             
             document.getElementById('scan-loading-overlay').classList.remove('hidden');
-            
             const qrCode = decodedText.trim();
-            const payload = {
-                username: appState.user.username,
-                qrCode: qrCode,
-                type: appState.scanMode.toUpperCase()
-            };
+            const payload = { username: appState.user.username, qrCode: qrCode, type: appState.scanMode.toUpperCase() };
 
             const res = await apiPost('smartScanCICO', payload);
-            
             document.getElementById('scan-loading-overlay').classList.add('hidden');
             showScanModal(res);
-            
             loadDashboardData(); 
         }
 
         function showScanModal(res) {
-            const modal = document.getElementById('scan-modal');
             const content = document.getElementById('scan-modal-content');
-            
             if(res.status === 'success') {
                 const icon = appState.scanMode === 'in' ? 'fa-check' : 'fa-person-walking-arrow-right';
                 content.innerHTML = `
                     <div class="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative">
-                        <i class="fa-solid ${icon} relative z-10"></i>
-                        <div class="absolute inset-0 border-4 border-emerald-500 rounded-full animate-ping opacity-20"></div>
+                        <i class="fa-solid ${icon} relative z-10"></i><div class="absolute inset-0 border-4 border-emerald-500 rounded-full animate-ping opacity-20"></div>
                     </div>
                     <h3 class="font-extrabold text-slate-800 text-2xl mb-2">Akses Diterima</h3>
                     <p class="text-slate-500 font-medium text-sm px-2">${res.message}</p>
@@ -1131,28 +1239,12 @@
                 `;
             } else {
                 content.innerHTML = `
-                    <div class="w-20 h-20 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative">
-                        <i class="fa-solid fa-xmark relative z-10"></i>
-                    </div>
+                    <div class="w-20 h-20 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 relative"><i class="fa-solid fa-xmark relative z-10"></i></div>
                     <h3 class="font-extrabold text-slate-800 text-2xl mb-2">Akses Ditolak</h3>
                     <p class="text-slate-500 font-medium text-sm px-2">${res.message}</p>
                 `;
             }
-            
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('div').classList.remove('scale-90');
-                modal.querySelector('div').classList.add('scale-100');
-            }, 20);
-        }
-
-        function closeScanModal() {
-            const modal = document.getElementById('scan-modal');
-            modal.classList.add('opacity-0');
-            modal.querySelector('div').classList.add('scale-90');
-            modal.querySelector('div').classList.remove('scale-100');
-            setTimeout(() => modal.classList.add('hidden'), 300);
+            openModal('scan-modal');
         }
     </script>
 </body>
